@@ -4,7 +4,7 @@
 This challenge provides a partial conversation, and requires participants to select the correct next utterances from a set of candidates.
 Unlike previous similar challenges, this task tries to push towards real world problems by introducing:
 
-- A larges number of candidates
+- A large number of candidates
 - Cases where no candidate is correct
 - External data
 
@@ -18,9 +18,9 @@ A full description of the track is available [here](http://workshop.colips.org/d
 A new set of disentangled Ubuntu IRC dialogs will be provided in this challenge.
 The dataset consists of two party conversations extracted from the Ubuntu IRC channel.
 A typical dialog starts with a question that was asked by *participant_1*, and then someone else, *participant_2*, responds with either an answer or follow-up questions that then lead to a back-and-forth conversation.
-In this challenge, the context of each dialog contains more than 3 turns which occured between the two participants and the next turn of *participant_2* should be selected from the given set of candidate utterances.
+In this challenge, the context of each dialog contains more than 3 turns which occurred between the two participants and the next turn of *participant_2* should be selected from the given set of candidate utterances.
 We focus on *participant_2* to set the task up as creating a bot that could help provide answers.
-Relavent external information of the form of Linux manual pages is also provided.
+Relevant external information of the form of Linux manual pages is also provided.
 
 ### Advising dataset
 
@@ -43,13 +43,12 @@ In the table below, [x] indicates that the subtask is evaluated on the marked da
 |4|Select the next utterance from a candidate pool of 100 which might not contain the correct next utterance|  [x] |  [x]  |
 |5|Select the next utterance from a candidate pool of 100 incorporating the provided external knowledge|  [x] |  [x]  |
 
-In **subtask 1**, for each partial dialog and a candidate pool of 100 is given and the contenstants are expected to select the best next utterance from the given pool.
+In **subtask 1**, for each partial dialog and a candidate pool of 100 is given and the contestants are expected to select the best next utterance from the given pool.
 
 In **subtask 2**, one large candidate pool of 120000 utterances is shared by training and validation datasets.
 The next best utterance should be selected from this large pool of candidate utterances.
 
-For **subtask 3**, in addition to the the training and validation dialog datasets, and extra dataset which includes paraphrases for utterances is provided.
-The contestants are required to use the paraphrase informaton to select the next utterance as well as its paraphrases from the given set of 100 candidates.
+For **subtask 3**, in addition to the training and validation dialog datasets, and extra dataset which includes paraphrases for utterances is provided. The contestants are required to use the paraphrase information to select the next utterance as well as its paraphrases from the given set of 100 candidates.
 
 The candidate sets that are provided for some dialogs in **subtask 4** does not include the correct next utterance.
 The contestants are expected to train their models in a way that during testing they can identify such cases.
@@ -63,9 +62,9 @@ The contestants can use the provided knowledge sources as is, or transform them 
 ## Data
 
 #### Datasets
-The dataset will be available for the contestants upon registration through the following link. <br>
+The dataset will be available to the contestants upon registering through the following link. <br>
 https://goo.gl/forms/8GWj8B3XEv3jfo2v2 <br>
-***All the datasets will be publicaly available after the competition.***
+***All the datasets will be publicly available after the competition.***
 
 #### Data format
 Each dialog contains in training, validation and test datasets follows the JSON format which is similar to the below example.
@@ -114,7 +113,7 @@ For the competition metric we will consider the choices that cover 90% of the di
 - Precision = (number of correct sentences selected) / (total number of sentences selected)
 - Recall = (number of correct sentences selected) / (total number of correct sentences in all sets)
 
-We are also considering a number of other metrics for the purpose of analysing system behaviour, but those will not be the official metric used for ranking.
+We are also considering a number of other metrics for the purpose of analyzing system behavior, but those will not be the official metric used for ranking.
 
 ### Submission
 
