@@ -62,8 +62,8 @@ The contestants can use the provided knowledge sources as is, or transform them 
 ## Data
 
 #### Datasets
-The dataset will be available to the contestants upon registration through the following link. <br>
-https://goo.gl/forms/8GWj8B3XEv3jfo2v2 <br>
+The dataset will be available to the contestants upon registration through the following link and selecting **Sentence Selection** as an interested track. <br>
+https://ibm.biz/BdZ6E3 <br>
 ***All the datasets will be publicly available after the competition.***
 
 #### Data format
