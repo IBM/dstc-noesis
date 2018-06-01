@@ -62,7 +62,7 @@ The contestants can use the provided knowledge sources as is, or transform them 
 ## Data
 
 #### Datasets
-The dataset will be available to the contestants upon registering through the following link. <br>
+The dataset will be available to the contestants upon registration through the following link. <br>
 https://goo.gl/forms/8GWj8B3XEv3jfo2v2 <br>
 ***All the datasets will be publicly available after the competition.***
 
