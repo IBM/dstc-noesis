@@ -10,7 +10,7 @@ Unlike previous similar challenges, this task tries to push towards real world p
 
 This challenge is offered with two goal oriented dialog datasets, used in 5 subtasks.
 A participant may participate in one, several, or all the subtasks.
-A full description of the track is available [here](http://workshop.colips.org/dstc7/proposals/DSTC%207%20Task%20Description%20-%20NOESIS_final.pdf "here").<br>
+A full description of the track is available [here](http://workshop.colips.org/dstc7/proposals/Track%201%20Merged%20Challenge%20Extended%20Desscription_v2.pdf "here").<br>
 ***Please visit this webpage often to remain updated about baseline results and more material.***
 
 ### Ubuntu dataset
