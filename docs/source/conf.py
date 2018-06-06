@@ -20,8 +20,8 @@
 # -- Project information -----------------------------------------------------
 
 project = 'dstc7-noesis'
-copyright = '2018, IBM'
-author = 'Kshitij Fadnis'
+copyright = '2018, International Business Machine Corp'
+author = 'Chulaka Gunasekara'
 
 # The short X.Y version
 version = ''
@@ -40,8 +40,6 @@ release = '0.0.1'
 # ones.
 extensions = [
     'sphinx.ext.autodoc',
-    'sphinx.ext.intersphinx',
-    'sphinx.ext.todo',
     'sphinx.ext.coverage',
     'sphinx.ext.mathjax',
     'sphinx.ext.ifconfig',
@@ -49,14 +47,17 @@ extensions = [
     'sphinx.ext.githubpages',
 ]
 
+source_parsers = {
+   '.md': 'recommonmark.parser.CommonMarkParser',
+}
+
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
 
 # The suffix(es) of source filenames.
 # You can specify multiple suffix as a list of string:
 #
-# source_suffix = ['.rst', '.md']
-source_suffix = '.rst'
+source_suffix = ['.rst', '.md']
 
 # The master toctree document.
 master_doc = 'index'
@@ -88,7 +89,12 @@ html_theme = 'alabaster'
 # further.  For a list of options available for each theme, see the
 # documentation.
 #
-# html_theme_options = {}
+html_theme_options = {
+    'description': "Dialog State Tracking Challenge 7",
+    'github_user': 'ibm',
+    'github_repo': 'dstc7-noesis',
+    'fixed_sidebar': True,
+}
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
@@ -104,7 +110,13 @@ html_static_path = ['_static']
 # 'searchbox.html']``.
 #
 # html_sidebars = {}
-
+html_sidebars = {
+    '**': [
+        'about.html',
+        'navigation.html',
+        'searchbox.html',
+    ]
+}
 
 # -- Options for HTMLHelp output ---------------------------------------------
 
@@ -137,7 +149,7 @@ latex_elements = {
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
     (master_doc, 'dstc7-noesis.tex', 'dstc7-noesis Documentation',
-     'Kshitij Fadnis', 'manual'),
+     'Chulaka Gunasekara', 'manual'),
 ]
 
 
@@ -163,14 +175,4 @@ texinfo_documents = [
 ]
 
 
-# -- Extension configuration -------------------------------------------------
-
-# -- Options for intersphinx extension ---------------------------------------
-
-# Example configuration for intersphinx: refer to the Python standard library.
-intersphinx_mapping = {'https://docs.python.org/': None}
-
-# -- Options for todo extension ----------------------------------------------
-
-# If true, `todo` and `todoList` produce output, else they produce nothing.
-todo_include_todos = True
+# -- Extension configuration --------------------------------------------------
