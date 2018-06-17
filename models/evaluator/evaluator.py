@@ -1,69 +1,68 @@
 from __future__ import print_function, division
 
+import numpy as np
 import torch
-import torchtext
-
-from torch.nn import NLLLoss
+from torch.nn import CrossEntropyLoss
 
 
 class Evaluator(object):
-    """ Class to evaluate models with given datasets.
+    r""" Class to evaluate models with given datasets.
 
     Args:
-        loss (seq2seq.loss, optional): loss for evaluator (default: seq2seq.loss.NLLLoss)
+        loss (torch.NN.CrossEntropyLoss, optional): loss for evaluator (default: torch.NN.CrossEntropyLoss)
         batch_size (int, optional): batch size for evaluator (default: 64)
     """
 
-    def __init__(self, loss=NLLLoss(), batch_size=64):
-        self.loss = loss
+    def __init__(self, loss_func=CrossEntropyLoss(), batch_size=64):
+        self.loss_func = loss_func
         self.batch_size = batch_size
 
     def evaluate(self, model, data):
-        """ Evaluate a model on given dataset and return performance.
+        r""" Evaluate a model on given dataset and return performance.
 
         Args:
-            model (seq2seq.models): model to evaluate
-            data (seq2seq.dataset.dataset.Dataset): dataset to evaluate against
+            model (models.networks): model to evaluate
+            data (dataset.dataset.Dataset): dataset to evaluate against
 
         Returns:
             loss (float): loss of the given model on the given dataset
         """
         model.eval()
 
-        loss = self.loss
-        loss.reset()
         match = 0
         total = 0
+        recall = {'@2': 0, '@5': 0, '@10': 0}
+        loss = 0
 
         device = None if torch.cuda.is_available() else -1
-        batch_iterator = torchtext.data.BucketIterator(
-            dataset=data, batch_size=self.batch_size,
-            sort=True, sort_key=lambda x: len(x.src),
-            device=device, train=False)
-        tgt_vocab = data.fields[model.tgt_field_name].vocab
-        pad = tgt_vocab.stoi[data.fields[model.tgt_field_name].pad_token]
 
         with torch.no_grad():
-            for batch in batch_iterator:
-                input_variables, input_lengths = getattr(batch, model.src_field_name)
-                target_variables = getattr(batch, model.tgt_field_name)
+            for batch in data.make_batches(self.batch_size):
+                context_variable = torch.tensor(batch[0])
+                responses_variable = torch.tensor(batch[1])
+                target_variable = torch.tensor(batch[2])
 
-                decoder_outputs, decoder_hidden, other = model(input_variables, input_lengths.tolist(), target_variables)
+                outputs = model(context_variable, responses_variable)
+
+                # Get loss
+                if len(outputs.size()) == 1:
+                    outputs = outputs.unsqueeze(0)
+                loss += self.loss_func(outputs, target_variable)
 
                 # Evaluation
-                seqlist = other['sequence']
-                for step, step_output in enumerate(decoder_outputs):
-                    target = target_variables[:, step + 1]
-                    loss.eval_batch(step_output.contiguous().view(target_variables.size(0), -1), target)
+                predictions = np.argsort(outputs.numpy(), axis=1)
+                num_samples = predictions.shape[0]
 
-                    non_padding = target.ne(pad)
-                    correct = seqlist[step].contiguous().view(-1).eq(target).masked_select(non_padding).sum().item()
-                    match += correct
-                    total += non_padding.sum().item()
+                ranks = predictions[np.arange(num_samples), target_variable]
+                match += sum(ranks == 0)
+                recall['@2'] += sum(ranks <= 2)
+                recall['@5'] += sum(ranks <= 5)
+                recall['@10'] += sum(ranks <= 10)
+                total += num_samples
 
         if total == 0:
             accuracy = float('nan')
         else:
             accuracy = match / total
 
-        return loss.get_loss(), accuracy
+        return loss, accuracy, {k: v/total for k, v in recall.items()}

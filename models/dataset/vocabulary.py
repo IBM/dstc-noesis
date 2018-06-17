@@ -1,6 +1,3 @@
-import cPickle as pickle
-
-
 class Vocabulary(object):
     """
     A Vocabulary stores a set of words belonging to a particular language. Words in the source vocabulary are mapped
@@ -15,19 +12,14 @@ class Vocabulary(object):
          size(int): maximum number of words allowed in this vocabulary
     """
     def __init__(self, size):
-        self.MASK_token_name = "MASK"
-        self.SOS_token_name = "SOS"
-        self.EOS_token_name = "EOS"
-        self.MASK_token_id = 0
-        self.SOS_token_id = 1
-        self.EOS_token_id = 2
+        self.UNK_token_name = "__unk__"
+        self.PAD_token_name = "__pad__"
+        self.UNK_token_id = 0
+        self.PAD_token_id = 1
 
-        self._reserved = set([self.MASK_token_name, self.SOS_token_name, self.EOS_token_name])
-        self._reserved_token_id = [
-                (self.MASK_token_name, self.MASK_token_id),
-                (self.SOS_token_name, self.SOS_token_id),
-                (self.EOS_token_name, self.EOS_token_id)
-        ]
+        self._reserved = set([self.UNK_token_name, self.PAD_token_name])
+        self._reserved_token_id = [(self.UNK_token_name, self.UNK_token_id),
+                                   (self.PAD_token_name, self.PAD_token_id)]
 
         self.stoi = dict([(tok, idx) for tok, idx in self._reserved_token_id])
         self.itos = dict([(idx, tok) for tok, idx in self._reserved_token_id])
@@ -35,7 +27,7 @@ class Vocabulary(object):
         self.stoc = {}
 
         self._num_tokens = 0
-        self._num_reserved = 3
+        self._num_reserved = 2
 
         self.sorted = False
         self.size = size
@@ -120,7 +112,7 @@ class Vocabulary(object):
         self.check_sorted()
         return [self.stoi[tok]
                 if tok in self.stoi
-                else self.MASK_token_id
+                else self.UNK_token_id
                 for tok in sequence]
 
     def sequence_from_indices(self, indices):

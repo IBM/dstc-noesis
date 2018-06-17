@@ -1,4 +1,6 @@
 import random
+import json
+import numpy as np
 
 from dataset.vocabulary import Vocabulary
 from dataset import utils
@@ -13,25 +15,17 @@ class Dataset(object):
         Source or target sequences that are longer than the respective
         max length will be filtered.
     Args:
-        src_max_len (int): maximum source sequence length
-        tgt_max_len (int): maximum target sequence length
+        max_len (int): maximum source sequence length
     """
 
-    def __init__(self, src_max_len, tgt_max_len):
-        # Prepare data
-        self.src_max_len = src_max_len
-        self.tgt_max_len = tgt_max_len
-
+    def __init__(self):
         # Declare vocabulary objects
-        self.input_vocab = None
-        self.output_vocab = None
-
+        self.vocab = None
         self.data = None
 
 
     @classmethod
-    def from_file(cls, path, src_max_len, tgt_max_len, src_vocab=None, tgt_vocab=None, src_max_vocab=50000,
-                 tgt_max_vocab=50000):
+    def from_file(cls, path, vocab=None, max_vocab=50000):
         """
         Initialize a dataset from the file at given path. The file
         must contains a list of TAB-separated pairs of sequences.
@@ -44,48 +38,16 @@ class Dataset(object):
             will be dropped in the sequences.
         Args:
             path (str): path to the dataset file
-            src_max_len (int): maximum source sequence length
-            tgt_max_len (int): maximum target sequence length
-            src_vocab (Vocabulary): pre-populated Vocabulary object or a path of a file containing words for the source language,
+            max_len (int): maximum source sequence length
+            vocab (Vocabulary): pre-populated Vocabulary object or a path of a file containing words for the source language,
             default `None`. If a pre-populated Vocabulary object, `src_max_vocab` wouldn't be used.
-            tgt_vocab (Vocabulary): pre-populated Vocabulary object or a path of a file containing words for the target language,
-            default `None`. If a pre-populated Vocabulary object, `tgt_max_vocab` wouldn't be used.
-            src_max_vocab (int): maximum source vocabulary size
-            tgt_max_vocab (int): maximum target vocabulary size
+            max_vocab (int): maximum source vocabulary size
         """
-        obj = cls(src_max_len, tgt_max_len)
-        pairs = utils.prepare_data(path, src_max_len, tgt_max_len)
-        return cls._encode(obj, pairs, src_vocab, tgt_vocab, src_max_vocab, tgt_max_vocab)
+        obj = cls()
+        pairs = utils.prepare_data(path)
+        return cls._encode(obj, pairs, vocab, max_vocab)
 
-    @classmethod
-    def from_list(cls, src_data, tgt_data, src_max_len, tgt_max_len, src_vocab=None, tgt_vocab=None, src_max_vocab=50000,
-                  tgt_max_vocab=50000):
-        """
-        Initialize a dataset from the source and target lists of sequences.
-        Note:
-            Source or target sequences that are longer than the respective
-            max length will be filtered.
-            As specified by maximum vocabulary size, source and target
-            vocabularies will be sorted in descending token frequency and cutoff.
-            Tokens that are in the dataset but not retained in the vocabulary
-            will be dropped in the sequences.
-        Args:
-            src_data (list): list of source sequences
-            tgt_data (list): list of target sequences
-            src_max_len (int): maximum source sequence length
-            tgt_max_len (int): maximum target sequence length
-            src_vocab (Vocabulary): pre-populated Vocabulary object or a path of a file containing words for the source language,
-            default `None`. If a pre-populated Vocabulary object, `src_max_vocab` wouldn't be used.
-            tgt_vocab (Vocabulary): pre-populated Vocabulary object or a path of a file containing words for the target language,
-            default `None`. If a pre-populated Vocabulary object, `tgt_max_vocab` wouldn't be used.
-            src_max_vocab (int): maximum source vocabulary size
-            tgt_max_vocab (int): maximum target vocabulary size
-        """
-        obj = cls(src_max_len, tgt_max_len)
-        pairs = utils.prepare_data_from_list(src_data, tgt_data, src_max_len, tgt_max_len)
-        return cls._encode(obj, pairs, src_vocab, tgt_vocab, src_max_vocab, tgt_max_vocab)
-
-    def _encode(self, pairs, src_vocab=None, tgt_vocab=None, src_max_vocab=50000, tgt_max_vocab=50000):
+    def _encode(self, pairs, vocab=None, max_vocab=500000):
         """
         Encodes the source and target lists of sequences using source and target vocabularies.
         Note:
@@ -97,30 +59,30 @@ class Dataset(object):
             will be dropped in the sequences.
         Args:
             pairs (list): list of tuples (source sequences, target sequence)
-            src_vocab (Vocabulary): pre-populated Vocabulary object or a path of a file containing words for the source language,
+            vocab (Vocabulary): pre-populated Vocabulary object or a path of a file containing words for the source language,
             default `None`. If a pre-populated Vocabulary object, `src_max_vocab` wouldn't be used.
-            tgt_vocab (Vocabulary): pre-populated Vocabulary object or a path of a file containing words for the target language,
-            default `None`. If a pre-populated Vocabulary object, `tgt_max_vocab` wouldn't be used.
-            src_max_vocab (int): maximum source vocabulary size
-            tgt_max_vocab (int): maximum target vocabulary size
+            max_vocab (int): maximum source vocabulary size
         """
         # Read in vocabularies
-        self.input_vocab = self._init_vocab(zip(*pairs)[0], src_max_vocab, src_vocab)
-        self.output_vocab = self._init_vocab(zip(*pairs)[1], tgt_max_vocab, tgt_vocab)
+        self.vocab = self._init_vocab(pairs, max_vocab, vocab)
 
         # Translate input sequences to token ids
         self.data = []
-        for pair in pairs:
-            src = self.input_vocab.indices_from_sequence(pair[0])
-            dst = self.output_vocab.indices_from_sequence(pair[1])
-            self.data.append((src, dst))
+        for (context, candidates), target in pairs:
+            c = self.vocab.indices_from_sequence(context)
+            r = []
+            for candidate in candidates:
+                r.append(self.vocab.indices_from_sequence(candidate))
+            self.data.append(((c, r), target))
         return self
 
-    def _init_vocab(self, sequences, max_num_vocab, vocab):
+    def _init_vocab(self, data, max_num_vocab, vocab):
         resp_vocab = Vocabulary(max_num_vocab)
         if vocab is None:
-            for sequence in sequences:
-                resp_vocab.add_sequence(sequence)
+            for (context, candidates), target in data:
+                resp_vocab.add_sequence(context)
+                for candidate in candidates:
+                    resp_vocab.add_sequence(candidate)
             resp_vocab.trim()
         elif isinstance(vocab, Vocabulary):
             resp_vocab = vocab
@@ -131,6 +93,24 @@ class Dataset(object):
             raise AttributeError('{} is not a valid instance on a vocabulary. None, instance of Vocabulary class \
                                  and str are only supported formats for the vocabulary'.format(vocab))
         return resp_vocab
+
+    def _pad(self, data):
+        c = [pair[0][0] for pair in data]
+        r = [pair[0][1] for pair in data]
+        context = np.zeros([len(c), max([len(entry) for entry in c])], dtype=int)
+        context.fill(self.vocab.PAD_token_id)
+
+        for i, entry in enumerate(c):
+            context[i, :len(entry)] = entry
+
+        responses = np.zeros([len(r), max([len(entry) for entry in r]), max([len(cand) for entry in r for cand in entry])], dtype=int)
+        responses.fill(self.vocab.PAD_token_id)
+
+        for i, entry in enumerate(r):
+            for j, cand in enumerate(entry):
+                responses[i, j, :len(cand)] = cand
+
+        return context, responses
 
     def __len__(self):
         return len(self.data)
@@ -158,10 +138,10 @@ class Dataset(object):
                                 format(batch_size, len(self.data)))
         for i in range(0, len(self.data), batch_size):
             cur_batch = self.data[i:i + batch_size]
-            source_variables = [pair[0] for pair in cur_batch]
-            target_variables = [pair[1] for pair in cur_batch]
+            context, responses = self._pad(cur_batch)
+            target = np.asarray([pair[1] for pair in cur_batch])
 
-            yield (source_variables, target_variables)
+            yield (context, responses, target)
 
     def shuffle(self, seed=None):
         """

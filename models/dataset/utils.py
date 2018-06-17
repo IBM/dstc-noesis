@@ -1,19 +1,8 @@
 import logging
+import json
 from tqdm import tqdm
 
 logger = logging.getLogger(__name__)
-
-def filter_pair(pair, src_max_len, tgt_max_len):
-    """
-    Returns true if a sentence pair meets the length requirements, false otherwise.
-    Args:
-        pair ((str, str)): (source, target) sentence pair
-        src_max_len (int): maximum length cutoff for sentences in the source language
-        tgt_max_len (int): maximum length cutoff for sentences in the target language
-    Returns:
-         bool: true if the pair is shorter than the length cutoffs, false otherwise
-    """
-    return len(pair[0]) <= src_max_len and len(pair[1]) <= tgt_max_len
 
 
 def space_tokenize(text):
@@ -27,64 +16,81 @@ def space_tokenize(text):
     return text.split(" ")
 
 
-def prepare_data(path, src_max_len, tgt_max_len, tokenize_func=space_tokenize):
+def prepare_data(path, tokenize_func=space_tokenize, format='JSON'):
     """
     Reads a tab-separated data file where each line contains a source sentence and a target sentence. Pairs containing
     a sentence that exceeds the maximum length allowed for its language are not added.
     Args:
         path (str): path to the data file
-        src_max_len (int): maximum length cutoff for sentences in the source language
-        tgt_max_len (int): maximum length cutoff for sentences in the target language
         tokenize_func (func): function for splitting words in a sentence (default is single-space-delimited)
+        format (str): data format for input file. Default is JSON.
     Returns:
-        list((str, str)): list of (source, target) string pairs
+        list((str, list(str)), str): list of ((context, list of candidates), target) string pairs
     """
 
     logger.info("Reading Lines from {}".format(path))
     # Read the file and split into lines
     pairs = []
-    with open(path) as fin:
-        for line in tqdm(fin):
-            try:
-                src, dst = line.strip().split("\t")
-                pair = map(tokenize_func, [src, dst])
-                if filter_pair(pair, src_max_len, tgt_max_len):
-                    pairs.append(pair)
-            except:
-                logger.error("Error when reading line: {0}".format(line))
-                raise
+    with open(path, 'r') as fin:
+        if format == 'JSON':
+            pairs = process(json.load(fin), tokenize_func)
+        elif format == 'CSV':
+            pairs = read(fin, ",", tokenize_func)
+        elif format == 'TSV':
+            pairs = read(fin, ",", tokenize_func)
 
     logger.info("Number of pairs: %s" % len(pairs))
     return pairs
 
 
-def prepare_data_from_list(src_list, tgt_list, src_max_len, tgt_max_len, tokenize_func=space_tokenize):
-    """
-    Reads a tab-separated data file where each line contains a source sentence and a target sentence. Pairs containing
-    a sentence that exceeds the maximum length allowed for its language are not added.
-    Args:
-        src_list (list): list of source sequences
-        tgt_list (list): list of target sequences
-        src_max_len (int): maximum length cutoff for sentences in the source language
-        tgt_max_len (int): maximum length cutoff for sentences in the target language
-        tokenize_func (func): function for splitting words in a sentence (default is single-space-delimited)
-    Returns:
-        list((str, str)): list of (source, target) string pairs
-    """
-    if not len(src_list) == len(tgt_list):
-        raise ValueError('source sequence list and target sequence list has different number of entries.')
-
-    logger.info("Preparing pairs...")
-
-    # Read the file and split into lines
+def read(fin, delimiter, tokenize_func):
     pairs = []
-
-    for index, _ in tqdm(enumerate(src_list)):
-        pair = map(tokenize_func, [src_list[index], tgt_list[index]])
-        if filter_pair(pair, src_max_len, tgt_max_len):
+    for line in tqdm(fin):
+        try:
+            src, dst = line.strip().split(delimiter)
+            pair = map(tokenize_func, [src, dst])
             pairs.append(pair)
+        except:
+            logger.error("Error when reading line: {0}".format(line))
+            raise
+    return pairs
 
-    logger.info("Number of pairs: %s" % len(pairs))
+
+def process(records, tokenize_func):
+    pairs = []
+    for record in records:
+        context = ""
+        speaker = None
+        for msg in record['messages-so-far']:
+            if speaker is None:
+                context += msg['utterance'] + " __eou__ "
+                speaker = msg['speaker']
+            elif speaker != msg['speaker']:
+                context += "__eot__ " + msg['utterance'] + " __eou__ "
+                speaker = msg['speaker']
+            else:
+                context += msg['utterance'] + " __eou__ "
+
+        context += "__eot__"
+
+        # Create the next utterance options and the target label
+        candidates = []
+        correct_answer = record['options-for-correct-answers'][0]
+        target_id = correct_answer['candidate-id']
+        tgt = None
+        for i, candidate in enumerate(record['options-for-next']):
+            if candidate['candidate-id'] == target_id:
+                tgt = i
+            candidates.append(tokenize_func(candidate['utterance']))
+
+        if tgt is None:
+            logger.info(
+                'Correct answer not found in options-for-next - example {}. Setting 0 as the correct index'.format(
+                    record['example-id']))
+            tgt = 0
+        else:
+            pairs.append(((tokenize_func(context), candidates), tgt))
+
     return pairs
 
 

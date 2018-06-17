@@ -18,12 +18,8 @@ class Base(nn.Module):
     Inputs: ``*args``, ``**kwargs``
         - ``*args``: variable length argument list.
         - ``**kwargs``: arbitrary keyword arguments.
-    Attributes:
-        SYM_MASK: masking symbol
-        SYM_EOS: end-of-sequence symbol
+
     """
-    SYM_MASK = "MASK"
-    SYM_EOS = "EOS"
 
     def __init__(self, vocab_size, max_len, hidden_size, input_dropout_p, dropout_p, n_layers, rnn_cell):
         super(Base, self).__init__()
@@ -85,16 +81,17 @@ class Encoder(Base):
         super(Encoder, self).__init__(vocab_size, max_len, hidden_size,
                 input_dropout_p, dropout_p, n_layers, rnn_cell)
 
+        self.bidirectional = bidirectional
         self.variable_lengths = variable_lengths
         self.embedding = nn.Embedding(vocab_size, hidden_size)
         if embedding is not None:
             self.embedding.weight = nn.Parameter(embedding)
         self.embedding.weight.requires_grad = update_embedding
         self.rnn = self.rnn_cell(hidden_size, hidden_size, n_layers,
-                                 batch_first=True, bidirectional=bidirectional, dropout=dropout_p)
+                                 batch_first=True, bidirectional=self.bidirectional, dropout=dropout_p)
 
     def forward(self, input_var, input_lengths=None):
-        """
+        r"""
         Applies a multi-layer RNN to an input sequence.
         Args:
             input_var (batch, seq_len): tensor containing the features of the input sequence.
@@ -115,16 +112,52 @@ class Encoder(Base):
 
 
 class DualEncoder(nn.Module):
+    r""""
+    Applies dual encoder architecture.
+
+    Args:
+        context (models.networks.dual_encoder.Encoder): encoder RNN for context information
+        response (models.networks.dual_encoder.Encoder): encoder RNN for responses information
+
+    Inputs: context_var, responses_var
+        - **context_var** : a tensor containing context information
+        - **responses_var** : a tensor containing responses per context information
+    Outputs: output
+        - **output** (batch, num_responses): tensor containing scaled probabilities of responses
+    Examples::
+         >>> dual_encoder = DualEncoder(ctx_encoder, resp_encoder)
+         >>> output = dual_encoder(ctx_variable, resp_variable)
+    """
     def __init__(self, context, response):
         super(DualEncoder, self).__init__()
         self.context = context
         self.response = response
-        self.M = torch.randn([context.hidden_size, response.hidden_size], requires_grad=True)
+
+        c_h = context.hidden_size
+        r_h = response.hidden_size
+
+        if self.context.bidirectional:
+            c_h = 2 * c_h
+
+        if self.response.bidirectional:
+            r_h = 2 * r_h
+
+        self.M = torch.randn([c_h, r_h], requires_grad=True)
         self.op = nn.Softmax()
 
-    def forward(self, *input):
-        c, _ = self.context(input[0])
-        r, _ = self.response(input[1])
+    def forward(self, context_var, responses_var):
+        r"""
+        Applies a multi-layer RNN to an input sequence.
+        Args:
+            context_var (batch, seq_len): tensor containing the features of the context sequence.
+            responses_var (batch, num_responses, seq_len): tensor containing the features of the responses sequence.
 
-        output = self.op(torch.matmul(torch.matmul(c.unsqueeze(1), self.M), r))
+        Returns: output
+            - **output** (batch, num_responses): variable containing the scaled probabilities over responses
+        """
+        batch, num_resp, seq_len = responses_var.size()
+        c, _ = self.context(context_var)
+        r, _ = self.response(responses_var.reshape([-1, seq_len]))
+
+        output = self.op(torch.matmul(torch.matmul(c[:, -1, :].unsqueeze(1), self.M), r.reshape([batch, num_resp, seq_len, -1])[:, :, -1, :].transpose(1, 2)).squeeze())
         return output
