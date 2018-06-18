@@ -20,15 +20,13 @@ class Checkpoint(object):
         optimizer (Optimizer): stores the state of the optimizer
         epoch (int): current epoch (an epoch is a loop through the full training data)
         step (int): number of examples seen within the current epoch
-        input_vocab (Vocabulary): vocabulary for the input language
-        output_vocab (Vocabulary): vocabulary for the output language
+        vocab (Vocabulary): vocabulary for the input language
 
     Attributes:
         CHECKPOINT_DIR_NAME (str): name of the checkpoint directory
         TRAINER_STATE_NAME (str): name of the file storing trainer states
         MODEL_NAME (str): name of the file storing model
-        INPUT_VOCAB_FILE (str): name of the input vocab file
-        OUTPUT_VOCAB_FILE (str): name of the output vocab file
+        VOCAB_FILE (str): name of the input vocab file
     """
 
     CHECKPOINT_DIR_NAME = 'checkpoints'
@@ -54,8 +52,10 @@ class Checkpoint(object):
         """
         Saves the current model and related training parameters into a subdirectory of the checkpoint directory.
         The name of the subdirectory is the current local time in Y_M_D_H_M_S format.
+
         Args:
             experiment_dir (str): path to the experiment root directory
+
         Returns:
              str: path to the saved checkpoint subdirectory
         """
@@ -83,8 +83,10 @@ class Checkpoint(object):
     def load(cls, path):
         """
         Loads a Checkpoint object that was previously saved to disk.
+
         Args:
             path (str): path to the checkpoint subdirectory
+
         Returns:
             checkpoint (Checkpoint): checkpoint object with fields copied from those stored on disk
         """
@@ -111,8 +113,10 @@ class Checkpoint(object):
         Given the path to an experiment directory, returns the path to the last saved checkpoint's subdirectory.
 
         Precondition: at least one checkpoint has been made (i.e., latest checkpoint subdirectory exists).
+
         Args:
             experiment_path (str): path to the experiment directory
+
         Returns:
              str: path to the last saved checkpoint's subdirectory
         """

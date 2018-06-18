@@ -23,34 +23,34 @@ These conversations were collected by having students at the University of Michi
 Structured information in the form of a database of course information will be provided, as well as the personas (though at test time only information available to the advisor will be provided, i.e. not the explicit student preferences).
 The data also includes paraphrases of the sentences and of the target responses.
 
-Tasks
------
+Sub-Tasks
+---------
 We are considered several tasks that have similar structure, but vary in the output space and available context. In the table below, [x] indicates that the task is evaluated on the marked dataset.
 
-    +------+-----------------------------------------------------------------------------------------------------------+--------+----------+
-    | Task | Description                                                                                               | Ubuntu | Advising |
-    +======+===========================================================================================================+========+==========+
-    | 1    | Select the next utterance from a candidate pool of 100 sentences                                          |   [x]  |    [x]   |
-    +------+-----------------------------------------------------------------------------------------------------------+--------+----------+
-    | 2    | Select the next utterance from a candidate pool of 120000                                                 |   [x]  |          |
-    +------+-----------------------------------------------------------------------------------------------------------+--------+----------+
-    | 3    | Select the next utterance and its paraphrases from candidate pool of 100                                  |        |    [x]   |
-    +------+-----------------------------------------------------------------------------------------------------------+--------+----------+
-    | 4    | Select the next utterance from a candidate pool of 100 which might not contain the correct next utterance |   [x]  |    [x]   |
-    +------+-----------------------------------------------------------------------------------------------------------+--------+----------+
-    | 5    | Select the next utterance from a candidate pool of 100 incorporating the provided external knowledge      |   [x]  |    [x]   |
-    +------+-----------------------------------------------------------------------------------------------------------+--------+----------+
+    +----------+-----------------------------------------------------------------------------------------------------------+--------+----------+
+    | Sub-Task | Description                                                                                               | Ubuntu | Advising |
+    +==========+===========================================================================================================+========+==========+
+    | 1        | Select the next utterance from a candidate pool of 100 sentences                                          |   [x]  |    [x]   |
+    +----------+-----------------------------------------------------------------------------------------------------------+--------+----------+
+    | 2        | Select the next utterance from a candidate pool of 120000                                                 |   [x]  |          |
+    +----------+-----------------------------------------------------------------------------------------------------------+--------+----------+
+    | 3        | Select the next utterance and its paraphrases from candidate pool of 100                                  |        |    [x]   |
+    +----------+-----------------------------------------------------------------------------------------------------------+--------+----------+
+    | 4        | Select the next utterance from a candidate pool of 100 which might not contain the correct next utterance |   [x]  |    [x]   |
+    +----------+-----------------------------------------------------------------------------------------------------------+--------+----------+
+    | 5        | Select the next utterance from a candidate pool of 100 incorporating the provided external knowledge      |   [x]  |    [x]   |
+    +----------+-----------------------------------------------------------------------------------------------------------+--------+----------+
 
 
-In **task 1**, for each partial dialog and a candidate pool of 100 is given and the contestants are expected to select the best next utterance from the given pool.
+In **sub-task 1**, for each partial dialog and a candidate pool of 100 is given and the contestants are expected to select the best next utterance from the given pool.
 
-In **task 2**, one large candidate pool of 120000 utterances is shared by training and validation datasets. The next best utterance should be selected from this large pool of candidate utterances.
+In **sub-task 2**, one large candidate pool of 120000 utterances is shared by training and validation datasets. The next best utterance should be selected from this large pool of candidate utterances.
 
-For **task 3**, in addition to the training and validation dialog datasets, and extra dataset which includes paraphrases for utterances is provided. The contestants are required to use the paraphrase information to select the next utterance as well as its paraphrases from the given set of 100 candidates.
+For **sub-task 3**, in addition to the training and validation dialog datasets, and extra dataset which includes paraphrases for utterances is provided. The contestants are required to use the paraphrase information to select the next utterance as well as its paraphrases from the given set of 100 candidates.
 
-The candidate sets that are provided for some dialogs in **task 4** does not include the correct next utterance. The contestants are expected to train their models in a way that during testing they can identify such cases.
+The candidate sets that are provided for some dialogs in **sub-task 4** does not include the correct next utterance. The contestants are expected to train their models in a way that during testing they can identify such cases.
 
-In **task 5**, additional external information which will be important for dialog modeling will be provided. For Ubuntu dataset, this external information comes in the form of Linux manual pages and for Advising dataset, extra information about courses will be given. The same training, validation and test data files in task 1 will be reused for this task. The contestants can use the provided knowledge sources as is, or transform them to appropriate representations (e.g. knowledge graphs, continuous embeddings, etc.) that can be integrated with end-to-end dialog systems to improve accuracy.
+In **sub-task 5**, additional external information which will be important for dialog modeling will be provided. For Ubuntu dataset, this external information comes in the form of Linux manual pages and for Advising dataset, extra information about courses will be given. The same training, validation and test data files in task 1 will be reused for this task. The contestants can use the provided knowledge sources as is, or transform them to appropriate representations (e.g. knowledge graphs, continuous embeddings, etc.) that can be integrated with end-to-end dialog systems to improve accuracy.
 
 
 Data Format

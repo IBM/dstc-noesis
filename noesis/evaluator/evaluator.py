@@ -6,7 +6,7 @@ from torch.nn import CrossEntropyLoss
 
 
 class Evaluator(object):
-    r""" Class to evaluate models with given datasets.
+    """ Class to evaluate models with given datasets.
 
     Args:
         loss (torch.NN.CrossEntropyLoss, optional): loss for evaluator (default: torch.NN.CrossEntropyLoss)
@@ -18,7 +18,7 @@ class Evaluator(object):
         self.batch_size = batch_size
 
     def evaluate(self, model, data):
-        r""" Evaluate a model on given dataset and return performance.
+        """ Evaluate a model on given dataset and return performance.
 
         Args:
             model (models.networks): model to evaluate

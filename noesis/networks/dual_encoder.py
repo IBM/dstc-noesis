@@ -5,8 +5,10 @@ import torch
 class Base(nn.Module):
     r"""
     Applies a multi-layer RNN to an input sequence.
-    Note:
+
+    Warning:
         Do not use this class directly, use one of the sub classes.
+
     Args:
         vocab_size (int): size of the vocabulary
         max_len (int): maximum allowed length for the sequence to be processed
@@ -15,6 +17,7 @@ class Base(nn.Module):
         dropout_p (float): dropout probability for the output sequence
         n_layers (int): number of recurrent layers
         rnn_cell (str): type of RNN cell (Eg. 'LSTM' , 'GRU')
+
     Inputs: ``*args``, ``**kwargs``
         - ``*args``: variable length argument list.
         - ``**kwargs``: arbitrary keyword arguments.
@@ -48,6 +51,7 @@ class Base(nn.Module):
 class Encoder(Base):
     r"""
     Applies a multi-layer RNN to an input sequence.
+
     Args:
         vocab_size (int): size of the vocabulary
         max_len (int): a maximum allowed length for the sequence to be processed
@@ -62,13 +66,15 @@ class Encoder(Base):
             the size of the embedding parameter: (vocab_size, hidden_size).  The embedding layer would be initialized
             with the tensor if provided (default: None).
         update_embedding (bool, optional): If the embedding should be updated during training (default: False).
+
     Inputs: inputs, input_lengths
         - **inputs**: list of sequences, whose length is the batch size and within which each sequence is a list of token IDs.
-        - **input_lengths** (list of int, optional): list that contains the lengths of sequences
-            in the mini-batch, it must be provided when using variable length RNN (default: `None`)
+        - **input_lengths** (list of int, optional): list that contains the lengths of sequences in the mini-batch, it must be provided when using variable length RNN (default: `None`)
+
     Outputs: output, hidden
         - **output** (batch, seq_len, hidden_size): tensor containing the encoded features of the input sequence
         - **hidden** (num_layers * num_directions, batch, hidden_size): tensor containing the features in the hidden state `h`
+
     Examples::
          >>> encoder = EncoderRNN(input_vocab, max_seq_length, hidden_size)
          >>> output, hidden = encoder(input)
@@ -93,10 +99,12 @@ class Encoder(Base):
     def forward(self, input_var, input_lengths=None):
         r"""
         Applies a multi-layer RNN to an input sequence.
+
         Args:
             input_var (batch, seq_len): tensor containing the features of the input sequence.
             input_lengths (list of int, optional): A list that contains the lengths of sequences
               in the mini-batch
+
         Returns: output, hidden
             - **output** (batch, seq_len, hidden_size): variable containing the encoded features of the input sequence
             - **hidden** (num_layers * num_directions, batch, hidden_size): variable containing the features in the hidden state h
@@ -116,14 +124,16 @@ class DualEncoder(nn.Module):
     Applies dual encoder architecture.
 
     Args:
-        context (models.networks.dual_encoder.Encoder): encoder RNN for context information
-        response (models.networks.dual_encoder.Encoder): encoder RNN for responses information
+        context (noesis.networks.dual_encoder.Encoder): encoder RNN for context information
+        response (noesis.networks.dual_encoder.Encoder): encoder RNN for responses information
 
     Inputs: context_var, responses_var
         - **context_var** : a tensor containing context information
         - **responses_var** : a tensor containing responses per context information
+
     Outputs: output
         - **output** (batch, num_responses): tensor containing scaled probabilities of responses
+
     Examples::
          >>> dual_encoder = DualEncoder(ctx_encoder, resp_encoder)
          >>> output = dual_encoder(ctx_variable, resp_variable)
@@ -148,6 +158,7 @@ class DualEncoder(nn.Module):
     def forward(self, context_var, responses_var):
         r"""
         Applies a multi-layer RNN to an input sequence.
+
         Args:
             context_var (batch, seq_len): tensor containing the features of the context sequence.
             responses_var (batch, num_responses, seq_len): tensor containing the features of the responses sequence.

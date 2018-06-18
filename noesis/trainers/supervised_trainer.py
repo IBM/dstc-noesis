@@ -6,8 +6,8 @@ import random
 import torch
 from torch.nn import CrossEntropyLoss
 from torch import optim
-from util.checkpoint import Checkpoint
-from evaluator.evaluator import Evaluator
+from noesis.util.checkpoint import Checkpoint
+from noesis.evaluator.evaluator import Evaluator
 
 
 class SupervisedTrainer(object):

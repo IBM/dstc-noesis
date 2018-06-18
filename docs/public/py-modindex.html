@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Evaluations &mdash; dstc7-noesis 0.0.1 documentation</title>
+  <title>Python Module Index &mdash; dstc7-noesis 0.0.1 documentation</title>
   
 
   
@@ -28,8 +28,9 @@
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="FAQs" href="faq.html" />
-    <link rel="prev" title="Datasets" href="dataset.html" /> 
+ 
+
+
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -78,9 +79,9 @@
               
             
             
-              <ul class="current">
+              <ul>
 <li class="toctree-l1"><a class="reference internal" href="dataset.html">Datasets</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Evaluations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="evaluations.html">Evaluations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="faq.html">FAQs</a></li>
 <li class="toctree-l1"><a class="reference internal" href="package_reference.html">Package Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="submission.html">Submission</a></li>
@@ -129,14 +130,10 @@
     
       <li><a href="index.html">Docs</a> &raquo;</li>
         
-      <li>Evaluations</li>
+      <li>Python Module Index</li>
     
     
       <li class="wy-breadcrumbs-aside">
-        
-            
-            <a href="_sources/evaluations.rst.txt" rel="nofollow"> View page source</a>
-          
         
       </li>
     
@@ -148,29 +145,65 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="evaluations">
-<h1>Evaluations<a class="headerlink" href="#evaluations" title="Permalink to this headline">¶</a></h1>
-<p>For each test instance, we will expect you to return a set of 10 choices (candidate ids) from the set of possible follow-up sentences and a probability distribution over those 10 choices.
-For the competition metric we will consider the choices that cover 90% of the distribution, and compute an F-score as the harmonic mean of precision and recall:</p>
-<div class="math notranslate nohighlight">
-\[ \begin{align}\begin{aligned}Precision &amp;= \frac {\text{number of correct sentences selected}} {\text{total number of sentences selected}}\\\begin{split}\\\end{split}\\Recall &amp;= \frac {\text{number of correct sentences selected}} {\text{total number of correct sentences in all sets}}\end{aligned}\end{align} \]</div>
-<p>We are also considering a number of other metrics for the purpose of analyzing system behavior, but those will not be the official metric used for ranking.</p>
-</div>
+
+   <h1>Python Module Index</h1>
+
+   <div class="modindex-jumpbox">
+   <a href="#cap-n"><strong>n</strong></a>
+   </div>
+
+   <table class="indextable modindextable">
+     <tr class="pcap"><td></td><td>&#160;</td><td></td></tr>
+     <tr class="cap" id="cap-n"><td></td><td>
+       <strong>n</strong></td><td></td></tr>
+     <tr>
+       <td><img src="_static/minus.png" class="toggler"
+              id="toggle-1" style="display: none" alt="-" /></td>
+       <td>
+       <code class="xref">noesis</code></td><td>
+       <em></em></td></tr>
+     <tr class="cg-1">
+       <td></td>
+       <td>&#160;&#160;&#160;
+       <a href="package_reference.html#module-noesis.dataset.dataset"><code class="xref">noesis.dataset.dataset</code></a></td><td>
+       <em></em></td></tr>
+     <tr class="cg-1">
+       <td></td>
+       <td>&#160;&#160;&#160;
+       <a href="package_reference.html#module-noesis.dataset.utils"><code class="xref">noesis.dataset.utils</code></a></td><td>
+       <em></em></td></tr>
+     <tr class="cg-1">
+       <td></td>
+       <td>&#160;&#160;&#160;
+       <a href="package_reference.html#module-noesis.dataset.vocabulary"><code class="xref">noesis.dataset.vocabulary</code></a></td><td>
+       <em></em></td></tr>
+     <tr class="cg-1">
+       <td></td>
+       <td>&#160;&#160;&#160;
+       <a href="package_reference.html#module-noesis.evaluator.evaluator"><code class="xref">noesis.evaluator.evaluator</code></a></td><td>
+       <em></em></td></tr>
+     <tr class="cg-1">
+       <td></td>
+       <td>&#160;&#160;&#160;
+       <a href="package_reference.html#module-noesis.networks.dual_encoder"><code class="xref">noesis.networks.dual_encoder</code></a></td><td>
+       <em></em></td></tr>
+     <tr class="cg-1">
+       <td></td>
+       <td>&#160;&#160;&#160;
+       <a href="package_reference.html#module-noesis.trainers.supervised_trainer"><code class="xref">noesis.trainers.supervised_trainer</code></a></td><td>
+       <em></em></td></tr>
+     <tr class="cg-1">
+       <td></td>
+       <td>&#160;&#160;&#160;
+       <a href="package_reference.html#module-noesis.util.checkpoint"><code class="xref">noesis.util.checkpoint</code></a></td><td>
+       <em></em></td></tr>
+   </table>
 
 
            </div>
            
           </div>
           <footer>
-  
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="faq.html" class="btn btn-neutral float-right" title="FAQs" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="dataset.html" class="btn btn-neutral" title="Datasets" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
-    </div>
   
 
   <hr/>

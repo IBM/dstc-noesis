@@ -1,19 +1,21 @@
 import random
-import json
 import numpy as np
 
-from dataset.vocabulary import Vocabulary
-from dataset import utils
+from noesis.dataset.vocabulary import Vocabulary
+from noesis.dataset import utils
 
 
 class Dataset(object):
     """
     A class that encapsulates a dataset.
+
     Warning:
         Do not use this constructor directly, use one of the class methods to initialize.
+
     Note:
         Source or target sequences that are longer than the respective
         max length will be filtered.
+
     Args:
         max_len (int): maximum source sequence length
     """
@@ -29,6 +31,7 @@ class Dataset(object):
         """
         Initialize a dataset from the file at given path. The file
         must contains a list of TAB-separated pairs of sequences.
+
         Note:
             Source or target sequences that are longer than the respective
             max length will be filtered.
@@ -36,11 +39,10 @@ class Dataset(object):
             vocabularies will be sorted in descending token frequency and cutoff.
             Tokens that are in the dataset but not retained in the vocabulary
             will be dropped in the sequences.
+
         Args:
             path (str): path to the dataset file
-            max_len (int): maximum source sequence length
-            vocab (Vocabulary): pre-populated Vocabulary object or a path of a file containing words for the source language,
-            default `None`. If a pre-populated Vocabulary object, `src_max_vocab` wouldn't be used.
+            vocab (Vocabulary): pre-populated Vocabulary object or a path of a file containing words for the source language, default `None`. If a pre-populated Vocabulary object, `src_max_vocab` wouldn't be used.
             max_vocab (int): maximum source vocabulary size
         """
         obj = cls()
@@ -50,6 +52,7 @@ class Dataset(object):
     def _encode(self, pairs, vocab=None, max_vocab=500000):
         """
         Encodes the source and target lists of sequences using source and target vocabularies.
+
         Note:
             Source or target sequences that are longer than the respective
             max length will be filtered.
@@ -57,6 +60,7 @@ class Dataset(object):
             vocabularies will be sorted in descending token frequency and cutoff.
             Tokens that are in the dataset but not retained in the vocabulary
             will be dropped in the sequences.
+
         Args:
             pairs (list): list of tuples (source sequences, target sequence)
             vocab (Vocabulary): pre-populated Vocabulary object or a path of a file containing words for the source language,
@@ -118,20 +122,24 @@ class Dataset(object):
     def num_batches(self, batch_size):
         """
         Get the number of batches given batch size.
+
         Args:
-            batch_size(int): number of examples in a batch
+            batch_size (int): number of examples in a batch
+
         Returns:
-            int: number of batches
+            (int) : number of batches
         """
         return len(range(0, len(self.data), batch_size))
 
     def make_batches(self, batch_size):
         """
         Create a generator that generates batches in batch_size over data.
+
         Args:
             batch_size (int): number of pairs in a mini-batch
+
         Yields:
-            (list(str), list(str)): next pair of source and target variable in a batch
+            (list (str), list (str)): next pair of source and target variable in a batch
         """
         if len(self.data) < batch_size:
             raise OverflowError("batch size = {} cannot be larger than data size = {}".
@@ -146,8 +154,9 @@ class Dataset(object):
     def shuffle(self, seed=None):
         """
         Shuffle the data.
+
         Args:
-            seed(int): provide a value for the random seed; default seed=None is truly random
+            seed (int): provide a value for the random seed; default seed=None is truly random
         """
         if seed is not None:
             random.seed(seed)

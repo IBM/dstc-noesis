@@ -8,8 +8,9 @@ class Vocabulary(object):
     rare/unknown words.
     The Vocabulary is sorted in descending order based on frequency. If the number of words seen is greater than
     the maximum size of the Vocabulary, the remaining least-frequent words are ignored.
+
     Args:
-         size(int): maximum number of words allowed in this vocabulary
+        size (int): maximum number of words allowed in this vocabulary
     """
     def __init__(self, size):
         self.UNK_token_name = "__unk__"
@@ -56,7 +57,7 @@ class Vocabulary(object):
     def get_index(self, token):
         """
         Returns:
-            int: ID of the given token.
+           ID (int): ID of the given token.
         """
         self.check_sorted()
         return self.stoi[token]
@@ -64,7 +65,7 @@ class Vocabulary(object):
     def get_token(self, index):
         """
         Returns:
-            str: token with ID equal to the given index.
+            token (str): token with ID equal to the given index.
         """
         self.check_sorted()
         return self.itos[index]
@@ -72,7 +73,7 @@ class Vocabulary(object):
     def get_vocab_size(self):
         """
         Returns:
-            int: maximum number of words in the vocabulary.
+            size (int): maximum number of words in the vocabulary.
         """
         self.check_sorted()
         return self._num_tokens + self._num_reserved
@@ -80,6 +81,7 @@ class Vocabulary(object):
     def add_token(self, token):
         """
         Adds an occurrence of a token to the vocabulary, incrementing its observed frequency if the word already exists.
+
         Args:
              token (int): word to add
         """
@@ -95,6 +97,7 @@ class Vocabulary(object):
     def add_sequence(self, sequence):
         """
         Adds a sequence of words to the vocabulary.
+
         Args:
              sequence(list(str)): list of words, e.g. representing a sentence.
         """
@@ -104,8 +107,10 @@ class Vocabulary(object):
     def indices_from_sequence(self, sequence):
         """
         Maps a list of words to their token IDs, or else the 'mask' token if the word is rare/unknown.
+
         Args:
             sequence (list(str)): list of words to map
+
         Returns:
             list(int): list of mapped IDs
         """
@@ -118,8 +123,10 @@ class Vocabulary(object):
     def sequence_from_indices(self, indices):
         """
         Recover a sentence from a list of token IDs.
+
         Args:
             indices (list(int)): list of token IDs.
+
         Returns:
             list(str): recovered sentence, represented as a list of words
         """
@@ -129,6 +136,7 @@ class Vocabulary(object):
     def save(self, file_name):
         """
         Writes this Vocabulary to disk in a pickle file.
+
         Args:
              file_name (str): path to the target pickle file
         """
@@ -147,8 +155,10 @@ class Vocabulary(object):
     def load(cls, file_name):
         """
         Loads a Vocabulary from a pickle file on disk.
+
         Args:
             file_name (str): path to the pickle file
+
         Returns:
             Vocabulary: loaded Vocabulary
         """
