@@ -23,7 +23,7 @@ class SupervisedTrainer(object):
     """
     def __init__(self, expt_dir='experiment', loss_func=CrossEntropyLoss(), batch_size=64,
                  random_seed=None,
-                 checkpoint_every=100, print_every=100):
+                 checkpoint_every=5000, print_every=1000):
         self._trainer = "Simple Trainer"
         self.random_seed = random_seed
         if random_seed is not None:
@@ -68,7 +68,8 @@ class SupervisedTrainer(object):
         print_loss_total = 0  # Reset every print_every
         epoch_loss_total = 0  # Reset every epoch
 
-        device = None if torch.cuda.is_available() else -1
+        # device = None if torch.cuda.is_available() else -1
+        # device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
 
         steps_per_epoch = data.num_batches(batch_size)
         total_steps = steps_per_epoch * n_epochs
@@ -83,9 +84,21 @@ class SupervisedTrainer(object):
                 step += 1
                 step_elapsed += 1
 
-                context_variables = torch.tensor(batch[0])
-                responses_variables = torch.tensor(batch[1])
-                target_variables = torch.tensor(batch[2])
+                # context_variables = torch.tensor(batch[0])
+                # responses_variables = torch.tensor(batch[1])
+                # target_variables = torch.tensor(batch[2])
+                # context_variables = torch.tensor(batch[0], device=device)
+                # responses_variables = torch.tensor(batch[1], device=device)
+                # target_variables = torch.tensor(batch[2], device=device)
+
+                if torch.cuda.is_available():
+                    context_variables = torch.tensor(batch[0]).cuda()
+                    responses_variables = torch.tensor(batch[1]).cuda()
+                    target_variables = torch.tensor(batch[2]).cuda()
+                else:
+                    context_variables = torch.tensor(batch[0])
+                    responses_variables = torch.tensor(batch[1])
+                    target_variables = torch.tensor(batch[2])
 
                 loss = self._train_batch(context_variables, responses_variables, target_variables, model)
 
@@ -109,15 +122,17 @@ class SupervisedTrainer(object):
                                epoch=epoch, step=step,
                                vocab=data.vocab).save(self.expt_dir)
 
-            if step_elapsed == 0: continue
+            if step_elapsed == 0:
+                continue
 
             epoch_loss_avg = epoch_loss_total / min(steps_per_epoch, step - start_step)
             epoch_loss_total = 0
             log_msg = "Finished epoch %d: Train %s: %.4f" % (epoch, 'CrossEntropyLoss', epoch_loss_avg)
             if dev_data is not None:
                 dev_loss, accuracy, recall = self.evaluator.evaluate(model, dev_data)
-                self.optimizer.update(dev_loss, epoch)
+                # self.optimizer.update(dev_loss, epoch)
                 log_msg += ", Dev CrossEntropyLoss: %.4f, Accuracy: %.4f" % (dev_loss, accuracy)
+                log_msg += ", \n Recall: {}".format(recall)
                 model.train(mode=True)
             else:
                 self.optimizer.update(epoch_loss_avg, epoch)

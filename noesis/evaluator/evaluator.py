@@ -31,33 +31,41 @@ class Evaluator(object):
 
         match = 0
         total = 0
-        recall = {'@2': 0, '@5': 0, '@10': 0}
+        recall = {'@1': 0, '@2': 0, '@5': 0, '@10': 0, '@50': 0, '@100': 0}
         loss = 0
 
-        device = None if torch.cuda.is_available() else -1
+        # device = None if torch.cuda.is_available() else -1
 
         with torch.no_grad():
             for batch in data.make_batches(self.batch_size):
-                context_variable = torch.tensor(batch[0])
-                responses_variable = torch.tensor(batch[1])
-                target_variable = torch.tensor(batch[2])
+                if torch.cuda.is_available():
+                    context_variables = torch.tensor(batch[0]).cuda()
+                    responses_variables = torch.tensor(batch[1]).cuda()
+                    target_variables = torch.tensor(batch[2]).cuda()
+                else:
+                    context_variables = torch.tensor(batch[0])
+                    responses_variables = torch.tensor(batch[1])
+                    target_variables = torch.tensor(batch[2])
 
-                outputs = model(context_variable, responses_variable)
+                outputs = model(context_variables, responses_variables)
 
                 # Get loss
                 if len(outputs.size()) == 1:
                     outputs = outputs.unsqueeze(0)
-                loss += self.loss_func(outputs, target_variable)
+                loss += self.loss_func(outputs, target_variables)
 
                 # Evaluation
                 predictions = np.argsort(outputs.numpy(), axis=1)
                 num_samples = predictions.shape[0]
 
-                ranks = predictions[np.arange(num_samples), target_variable]
+                ranks = predictions[np.arange(num_samples), target_variables]
                 match += sum(ranks == 0)
+                recall['@1'] = match
                 recall['@2'] += sum(ranks <= 2)
                 recall['@5'] += sum(ranks <= 5)
                 recall['@10'] += sum(ranks <= 10)
+                recall['@50'] += sum(ranks <= 50)
+                recall['@100'] += sum(ranks <= 100)
                 total += num_samples
 
         if total == 0:
