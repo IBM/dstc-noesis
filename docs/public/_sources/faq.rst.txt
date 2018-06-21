@@ -30,3 +30,11 @@ FAQs
 4. **How are we evaluated**?
 
     For each test instance, we expect you to return a set of 10 choices (candidate ids) from the set candidates and a probability distribution over those 10 choices. For the competition metric we will consider the choices that cover 90% of the distribution, and compute an F-score as the harmonic mean of precision and recall.
+
+4. **What do you mean by end-to-end models**?
+
+    We don't need the whole system to be end-to-end trainable. You can have separate components, which are not trained with back-propagation. However, we expect the functionality of each of the components in your system to be learned from the given dataset. We discourage the use of hand-coded features for any component in your system, as one of the focus points of the challenge is automation.
+
+5. **Can we use pre-trained word embeddings**?
+
+    You can use any pre-trained embeddings that was publicly available before the 1st of June.
