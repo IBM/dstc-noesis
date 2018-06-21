@@ -84,6 +84,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#advising">Advising</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#sub-tasks">Sub-Tasks</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#data-format">Data Format</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#external-data">External Data</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="evaluations.html">Evaluations</a></li>
@@ -229,7 +230,7 @@ The data also includes paraphrases of the sentences and of the target responses.
 <div class="section" id="data-format">
 <h2>Data Format<a class="headerlink" href="#data-format" title="Permalink to this headline">¶</a></h2>
 <p>Each dialog contains in training, validation and test datasets follows the JSON format which is similar to the below example.</p>
-<div class="highlight-json notranslate"><div class="highlight"><pre><span></span>{
+<div class="highlight-json"><div class="highlight"><pre><span></span>{
     &quot;data-split&quot;: &quot;train&quot;,
     &quot;example-id&quot;: 1100001,
     &quot;messages-so-far&quot;: [
@@ -265,6 +266,79 @@ The data also includes paraphrases of the sentences and of the target responses.
 </pre></div>
 </div>
 <p>The field <cite>messages-so-far</cite> contains the context of the dialog and <cite>options-for-next</cite> contains the candidates to select the next utterance from. The correct next utterance is given in the field <cite>options-for-correct-answers</cite>. The field <cite>scenario</cite> refers to the subtask.</p>
+</div>
+<div class="section" id="external-data">
+<h2>External Data<a class="headerlink" href="#external-data" title="Permalink to this headline">¶</a></h2>
+<p>Each course offering record found in the external dataset provided for Advising domain contains the following fields.</p>
+<blockquote>
+<div><table border="1" class="docutils">
+<colgroup>
+<col width="18%" />
+<col width="82%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Field</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>Area</td>
+<td>Six general areas in computer science (otherwise NA)</td>
+</tr>
+<tr class="row-odd"><td>Category</td>
+<td>Five general types of classes in computer science (otherwise NA)</td>
+</tr>
+<tr class="row-even"><td>ClarityRating</td>
+<td>A number in [1.0, 5.0] indicating course clarity, or NA (78% of cases)</td>
+</tr>
+<tr class="row-odd"><td>ClassSize</td>
+<td>A number in [1.0, 250.0] indicating average class size, or NA (71% of cases)</td>
+</tr>
+<tr class="row-even"><td>Course</td>
+<td>Course ID, a series of letters and numbers</td>
+</tr>
+<tr class="row-odd"><td>CourseTitle</td>
+<td>Complete course name</td>
+</tr>
+<tr class="row-even"><td>Credits</td>
+<td>A number or a range (for example, indicated as 1 - 3)</td>
+</tr>
+<tr class="row-odd"><td>Description</td>
+<td>Free text description of the class topic</td>
+</tr>
+<tr class="row-even"><td>EasinessRating</td>
+<td>A number in [1.0, 5.0] indicating course difficulty level, or NA (78% of cases)</td>
+</tr>
+<tr class="row-odd"><td>HasDiscussion</td>
+<td>Whether the course has a discussion section (Y, N or null)</td>
+</tr>
+<tr class="row-even"><td>HasLab</td>
+<td>Whether the course has a lab (Y, N, null)</td>
+</tr>
+<tr class="row-odd"><td>HelpfulnessRating</td>
+<td>A number in [1.0, 5.0] indicating how helpful course staff were, or NA (78% of cases)</td>
+</tr>
+<tr class="row-even"><td>Semester</td>
+<td>Which semester the class was held in (Fall, Winter, Spring, Summer, or Spring-Summer)</td>
+</tr>
+<tr class="row-odd"><td>Workload</td>
+<td>One of {1, 2, 3, 4, null, NA}, where higher numbers indicate higher workload</td>
+</tr>
+<tr class="row-even"><td>Year</td>
+<td>A four digit number</td>
+</tr>
+<tr class="row-odd"><td>Section</td>
+<td>Information about available sections. The key for each is the instructor name, or ‘NA”</td>
+</tr>
+<tr class="row-even"><td>DaysOfClass</td>
+<td>One per section, lists weekdays, or for unknown it has “” or []</td>
+</tr>
+<tr class="row-odd"><td>StartTime / EndTime</td>
+<td>When the class is held as a 24-hour time, or NA (2%) or 0:00:00 (71%) when unknown</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
 <p><strong>*All the datasets will be publicly available after the competition.*</strong></p>
 </div>
 </div>
