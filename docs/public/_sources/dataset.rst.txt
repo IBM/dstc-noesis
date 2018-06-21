@@ -97,6 +97,52 @@ Each dialog contains in training, validation and test datasets follows the JSON 
 
 The field `messages-so-far` contains the context of the dialog and `options-for-next` contains the candidates to select the next utterance from. The correct next utterance is given in the field `options-for-correct-answers`. The field `scenario` refers to the subtask.
 
+External Data
+-------------
+
+Each course offering record found in the external dataset provided for Advising domain contains the following fields.
+
+    +---------------------+---------------------------------------------------------------------------------------------+
+    | Field               | Description                                                                                 |
+    +=====================+=============================================================================================+
+    | Area                | Six general areas in computer science (otherwise NA)                                        |
+    +---------------------+---------------------------------------------------------------------------------------------+
+    | Category            | Five general types of classes in computer science (otherwise NA)                            |
+    +---------------------+---------------------------------------------------------------------------------------------+
+    | ClarityRating       | A number in [1.0, 5.0] indicating course clarity, or NA (78% of cases)                      |
+    +---------------------+---------------------------------------------------------------------------------------------+
+    | ClassSize           | A number in [1.0, 250.0] indicating average class size, or NA (71% of cases)                |
+    +---------------------+---------------------------------------------------------------------------------------------+
+    | Course              | Course ID, a series of letters and numbers                                                  |
+    +---------------------+---------------------------------------------------------------------------------------------+
+    | CourseTitle         | Complete course name                                                                        |
+    +---------------------+---------------------------------------------------------------------------------------------+
+    | Credits             | A number or a range (for example, indicated as 1 - 3)                                       |
+    +---------------------+---------------------------------------------------------------------------------------------+
+    | Description         | Free text description of the class topic                                                    |
+    +---------------------+---------------------------------------------------------------------------------------------+
+    | EasinessRating      | A number in [1.0, 5.0] indicating course difficulty level, or NA (78% of cases)             |
+    +---------------------+---------------------------------------------------------------------------------------------+
+    | HasDiscussion       | Whether the course has a discussion section (Y, N or null)                                  |
+    +---------------------+---------------------------------------------------------------------------------------------+
+    | HasLab              | Whether the course has a lab (Y, N, null)                                                   |
+    +---------------------+---------------------------------------------------------------------------------------------+
+    | HelpfulnessRating   | A number in [1.0, 5.0] indicating how helpful course staff were, or NA (78% of cases)       |
+    +---------------------+---------------------------------------------------------------------------------------------+
+    | Semester            | Which semester the class was held in (Fall, Winter, Spring, Summer, or Spring-Summer)       |
+    +---------------------+---------------------------------------------------------------------------------------------+
+    | Workload            | One of {1, 2, 3, 4, null, NA}, where higher numbers indicate higher workload                |
+    +---------------------+---------------------------------------------------------------------------------------------+
+    | Year                | A four digit number                                                                         |
+    +---------------------+---------------------------------------------------------------------------------------------+
+    | Section             | Information about available sections. The key for each is the instructor name, or 'NA"      |
+    +---------------------+---------------------------------------------------------------------------------------------+
+    | DaysOfClass         | One per section, lists weekdays, or for unknown it has "" or []                             |
+    +---------------------+---------------------------------------------------------------------------------------------+
+    | StartTime / EndTime | When the class is held as a 24-hour time, or NA (2%) or 0:00:00 (71%) when unknown          |
+    +---------------------+---------------------------------------------------------------------------------------------+
+
+
 
 
 ***All the datasets will be publicly available after the competition.***
