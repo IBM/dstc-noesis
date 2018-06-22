@@ -23,7 +23,7 @@ class SupervisedTrainer(object):
     """
     def __init__(self, expt_dir='experiment', loss_func=CrossEntropyLoss(), batch_size=64,
                  random_seed=None,
-                 checkpoint_every=100, print_every=100):
+                 checkpoint_every=5000, print_every=1000):
         self._trainer = "Simple Trainer"
         self.random_seed = random_seed
         if random_seed is not None:
@@ -67,6 +67,7 @@ class SupervisedTrainer(object):
 
         print_loss_total = 0  # Reset every print_every
         epoch_loss_total = 0  # Reset every epoch
+
 
         steps_per_epoch = data.num_batches(batch_size)
         total_steps = steps_per_epoch * n_epochs
@@ -116,7 +117,8 @@ class SupervisedTrainer(object):
                            epoch=epoch, step=step,
                            vocab=data.vocab).save(self.expt_dir)
 
-            if step_elapsed == 0: continue
+            if step_elapsed == 0:
+                continue
 
             epoch_loss_avg = epoch_loss_total / min(steps_per_epoch, step - start_step)
             epoch_loss_total = 0
@@ -124,6 +126,7 @@ class SupervisedTrainer(object):
             if dev_data is not None:
                 dev_loss, accuracy, recall = self.evaluator.evaluate(model, dev_data)
                 log_msg += ", Dev CrossEntropyLoss: %.4f, Accuracy: %.4f" % (dev_loss, accuracy)
+                log_msg += ", \n Recall: {}".format(recall)
                 model.train(mode=True)
             else:
                 self.optimizer.update(epoch_loss_avg, epoch)

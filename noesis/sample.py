@@ -52,7 +52,7 @@ if opt.load_checkpoint is not None:
 else:
     # Prepare dataset
     train = Dataset.from_file(opt.train_path)
-    dev = Dataset.from_file(opt.train_path)
+    dev = Dataset.from_file(opt.dev_path)
     vocab = train.vocab
     max_len = 500
 
@@ -80,13 +80,13 @@ else:
 
     # train
     t = SupervisedTrainer(loss_func=loss_func, batch_size=1,
-                          checkpoint_every=50000,
-                          print_every=10, expt_dir=opt.expt_dir)
+                          checkpoint_every=5000,
+                          print_every=100, expt_dir=opt.expt_dir)
 
     t.train(dual_encoder, train, batch_size=1, num_epochs=5, dev_data=dev, optimizer=optimizer, resume=opt.resume)
 
     evaluator = Evaluator(batch_size=1)
-    l, precision, recall = evaluator.evaluate(dual_encoder, train)
+    l, precision, recall = evaluator.evaluate(dual_encoder, dev)
     print("Precision: {}, Recall: {}".format(precision, recall))
 
 

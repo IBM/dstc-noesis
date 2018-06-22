@@ -1,5 +1,5 @@
 import logging
-import json
+import ijson
 from tqdm import tqdm
 import numpy as np
 
@@ -15,6 +15,14 @@ def space_tokenize(text):
          list(str): list of tokens obtained by splitting the text on single spaces
     """
     return text.split(" ")
+
+
+def read_json(input_file):
+    json_objects_lst = list()
+    json_objects = ijson.items(input_file, 'item')
+    for obj in json_objects:
+        json_objects_lst.append(obj)
+    return json_objects_lst
 
 
 def prepare_data(path, tokenize_func=space_tokenize, format='JSON'):
@@ -34,7 +42,7 @@ def prepare_data(path, tokenize_func=space_tokenize, format='JSON'):
     pairs = []
     with open(path, 'r') as fin:
         if format == 'JSON':
-            pairs = process(json.load(fin), tokenize_func)
+            pairs = process(read_json(fin), tokenize_func)
         elif format == 'CSV':
             pairs = read(fin, ",", tokenize_func)
         elif format == 'TSV':

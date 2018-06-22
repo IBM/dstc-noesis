@@ -31,10 +31,10 @@ class Evaluator(object):
 
         match = 0
         total = 0
-        recall = {'@2': 0, '@5': 0, '@10': 0}
+        recall = {'@1': 0, '@2': 0, '@5': 0, '@10': 0, '@50': 0, '@100': 0}
         loss = 0
 
-        device = None if torch.cuda.is_available() else -1
+        # device = None if torch.cuda.is_available() else -1
 
         with torch.no_grad():
             for batch in data.make_batches(self.batch_size):
@@ -51,8 +51,6 @@ class Evaluator(object):
                     context_lengths_variable = torch.tensor(batch[3])
                     responses_lengths_variable = torch.tensor(batch[4])
 
-
-
                 outputs = model(context_variable, responses_variable, context_lengths_variable, responses_lengths_variable)
 
                 # Get loss
@@ -66,9 +64,12 @@ class Evaluator(object):
 
                 ranks = predictions[np.arange(num_samples), target_variable]
                 match += sum(ranks == 0)
+                recall['@1'] = match
                 recall['@2'] += sum(ranks <= 2)
                 recall['@5'] += sum(ranks <= 5)
                 recall['@10'] += sum(ranks <= 10)
+                recall['@50'] += sum(ranks <= 50)
+                recall['@100'] += sum(ranks <= 100)
                 total += num_samples
 
         if total == 0:
