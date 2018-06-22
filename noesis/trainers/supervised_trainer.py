@@ -111,7 +111,7 @@ class SupervisedTrainer(object):
                     log.info(log_msg)
 
             # Checkpoint
-            if step % self.checkpoint_every == 0:
+            if epoch % self.checkpoint_every == 0:
                 Checkpoint(model=model,
                            optimizer=self.optimizer,
                            epoch=epoch, step=step,

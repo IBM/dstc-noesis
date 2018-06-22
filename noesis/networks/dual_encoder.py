@@ -110,7 +110,7 @@ class Encoder(Base):
             - **output** (batch, seq_len, hidden_size): variable containing the encoded features of the input sequence
             - **hidden** (num_layers * num_directions, batch, hidden_size): variable containing the features in the hidden state h
         """
-        embedded = self.embedding(input_var).cuda()
+        embedded = self.embedding(input_var)
         embedded = self.input_dropout(embedded)
         if self.variable_lengths:
             embedded = nn.utils.rnn.pack_padded_sequence(embedded, input_lengths, batch_first=True)
@@ -154,7 +154,10 @@ class DualEncoder(nn.Module):
         if self.response.bidirectional:
             r_h = 2 * r_h
 
-        self.M = torch.randn([c_h, r_h], requires_grad=True).cuda()
+        if torch.cuda.is_available():
+            self.M = torch.randn([c_h, r_h], requires_grad=True).cuda()
+        else:
+            self.M = torch.randn([c_h, r_h], requires_grad=True)
         self.final_layer = nn.Softmax()
 
 

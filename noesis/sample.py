@@ -80,10 +80,10 @@ else:
 
     # train
     t = SupervisedTrainer(loss_func=loss_func, batch_size=1,
-                          checkpoint_every=5000,
+                          checkpoint_every=30,
                           print_every=100, expt_dir=opt.expt_dir)
 
-    t.train(dual_encoder, train, batch_size=1, num_epochs=5, dev_data=dev, optimizer=optimizer, resume=opt.resume)
+    t.train(dual_encoder, train, batch_size=1, num_epochs=20, dev_data=dev, optimizer=optimizer, resume=opt.resume)
 
     evaluator = Evaluator(batch_size=1)
     l, precision, recall = evaluator.evaluate(dual_encoder, dev)
