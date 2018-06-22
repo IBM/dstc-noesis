@@ -31,10 +31,19 @@ python scripts/prepare_data.py --train_in data/ubuntu_train_subtask_1.json --val
 #### Training
 
 ```
-python udc_train.py --train_in data/ubuntu_subtask_1_new.tfrecords --validation_in data/ubuntu_dev_subtask_1.tfrecords -glove_path data/glove.42B.300d.txt -vocab_path data/ubuntu_subtask_1.txt --embedding_dim=300 --batch_size=16
+python train.py --train_in data/ubuntu_subtask_1_new.tfrecords --validation_in data/ubuntu_dev_subtask_1.tfrecords -glove_path data/glove.42B.300d.txt -vocab_path data/ubuntu_subtask_1.txt --embedding_dim=300 --batch_size=16
 ```
 
 Please note, we use glove embeddings here. They can be downloaded from [here](https://nlp.stanford.edu/projects/glove/)
 
-Check `udc_hparams.py` for all command-line arguments. 
+Check `hparams.py` for all command-line arguments. 
+
+#### Dual Encoder Baselines (Recall)
+
+Baselines are reported on validation set. 
+
+| Dataset           | 1 in 100 R@1 | 1 in 100 R@2 | 1 in 100 R@5 | 1 in 100 R@10 | 1 in 100 R@50
+| :---------------: | :-------------: | :--------------------: |:----------: | :---------: | :---------: |
+| Ubuntu - Subtask 1 | 8.32% | 13.36% | 24.26% | 35.98% | 80.04% |
+| Advising - Subtask 1 | 6.2% | 9.8% | 18.4% | 29.6% | 72.8% |
 
