@@ -1,6 +1,7 @@
 import logging
 import json
 from tqdm import tqdm
+import numpy as np
 
 logger = logging.getLogger(__name__)
 
@@ -40,8 +41,23 @@ def prepare_data(path, tokenize_func=space_tokenize, format='JSON'):
             pairs = read(fin, ",", tokenize_func)
 
     logger.info("Number of pairs: %s" % len(pairs))
-    return pairs
+    return sort(pairs)
 
+
+def sort(pairs):
+    records = []
+    for (context, candidates), target in pairs:
+        sorted_candidates = list()
+        tmp = [(i, v) for i, v in enumerate(candidates)]
+        tmp.sort(key=lambda s: len(s[1]), reverse=True)
+        for i, (idx, cand) in enumerate(tmp):
+            if idx == target:
+                target = i
+            sorted_candidates.append(cand)
+        records.append(((context, sorted_candidates), target))
+
+    records.sort(key=lambda s: len(s[0][0]), reverse=True)
+    return records
 
 def read(fin, delimiter, tokenize_func):
     pairs = []

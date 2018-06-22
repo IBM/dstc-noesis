@@ -38,11 +38,22 @@ class Evaluator(object):
 
         with torch.no_grad():
             for batch in data.make_batches(self.batch_size):
-                context_variable = torch.tensor(batch[0])
-                responses_variable = torch.tensor(batch[1])
-                target_variable = torch.tensor(batch[2])
+                if torch.cuda.is_available():
+                    context_variable = torch.tensor(batch[0]).cuda()
+                    responses_variable = torch.tensor(batch[1]).cuda()
+                    target_variable = torch.tensor(batch[2]).cuda()
+                    context_lengths_variable = torch.tensor(batch[3]).cuda()
+                    responses_lengths_variable = torch.tensor(batch[4]).cuda()
+                else:
+                    context_variable = torch.tensor(batch[0])
+                    responses_variable = torch.tensor(batch[1])
+                    target_variable = torch.tensor(batch[2])
+                    context_lengths_variable = torch.tensor(batch[3])
+                    responses_lengths_variable = torch.tensor(batch[4])
 
-                outputs = model(context_variable, responses_variable)
+
+
+                outputs = model(context_variable, responses_variable, context_lengths_variable, responses_lengths_variable)
 
                 # Get loss
                 if len(outputs.size()) == 1:
