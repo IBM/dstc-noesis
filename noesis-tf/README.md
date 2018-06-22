@@ -1,7 +1,8 @@
-## Retrieval-Based Conversational Model in Tensorflow (Ubuntu Dialog Corpus)
+## Retrieval-Based Conversational Model in Tensorflow
 
 #### Overview
 This code extends the work from Denny Britz which implements the Dual LSTM Encoder model from [The Ubuntu Dialogue Corpus: A Large Dataset for Research in Unstructured Multi-Turn Dialogue Systems](http://arxiv.org/abs/1506.08909)
+
 [Refer to the original blog post here](http://www.wildml.com/2016/07/deep-learning-for-chatbots-2-retrieval-based-model-tensorflow)
 
 #### Setup
@@ -9,9 +10,10 @@ This code extends the work from Denny Britz which implements the Dual LSTM Encod
 This code uses Python 3.6 and Tensorflow-GPU 1.6. Clone the repository and install all required packages. It is recommended to use the [Anaconda package manager](https://www.anaconda.com/download/#macos). After installing Anaconda - 
 
 ```
+cd noesis-tf
 conda create --name dstc7 python=3.6
 source activate dstc7
-pip install tensorflow-gpu
+pip install -r ../requirements.txt
 ```
 
 #### Get the data
