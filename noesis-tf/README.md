@@ -44,7 +44,7 @@ Check `hparams.py` for all command-line arguments.
 
 #### Model
 
-This baseline model extends the duel-encoder model used [here](http://www.wildml.com/2016/07/deep-learning-for-chatbots-2-retrieval-based-model-tensorflow). The architecture of the model is shown in the figure below. ![](images/architecture.png)
+This baseline model extends the dual-encoder model used [here](http://www.wildml.com/2016/07/deep-learning-for-chatbots-2-retrieval-based-model-tensorflow). The architecture of the model is shown in the figure below. ![](images/architecture.png)
 
 
 
