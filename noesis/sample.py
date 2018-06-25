@@ -61,16 +61,15 @@ else:
     if torch.cuda.is_available():
         loss_func.cuda()
 
-    seq2seq = None
     optimizer = None
     if not opt.resume:
         # Initialize model
         hidden_size = 128
         bidirectional = True
         context_encoder = Encoder(vocab.get_vocab_size(), max_len, hidden_size,
-                             bidirectional=bidirectional, variable_lengths=False)
+                             bidirectional=bidirectional, variable_lengths=True)
         response_encoder = Encoder(vocab.get_vocab_size(), max_len, hidden_size,
-                             bidirectional=bidirectional, variable_lengths=False)
+                             bidirectional=bidirectional, variable_lengths=True)
 
         dual_encoder = DualEncoder(context_encoder, response_encoder)
         if torch.cuda.is_available():
@@ -80,12 +79,13 @@ else:
             param.data.uniform_(-0.08, 0.08)
 
     # train
-    t = SupervisedTrainer(loss_func=loss_func, batch_size=64,
-                          checkpoint_every=5000, print_every=1000, expt_dir=opt.expt_dir)
+    t = SupervisedTrainer(loss_func=loss_func, batch_size=1,
+                          checkpoint_every=30,
+                          print_every=100, expt_dir=opt.expt_dir)
 
-    t.train(dual_encoder, train, num_epochs=10, dev_data=dev, optimizer=optimizer, resume=opt.resume)
+    t.train(dual_encoder, train, batch_size=1, num_epochs=20, dev_data=dev, optimizer=optimizer, resume=opt.resume)
 
-    evaluator = Evaluator(batch_size=64)
+    evaluator = Evaluator(batch_size=1)
     l, precision, recall = evaluator.evaluate(dual_encoder, dev)
     print("Precision: {}, Recall: {}".format(precision, recall))
 

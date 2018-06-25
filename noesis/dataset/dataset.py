@@ -103,18 +103,22 @@ class Dataset(object):
         r = [pair[0][1] for pair in data]
         context = np.zeros([len(c), max([len(entry) for entry in c])], dtype=int)
         context.fill(self.vocab.PAD_token_id)
+        context_lengths = np.zeros(len(c), dtype=int)
 
         for i, entry in enumerate(c):
             context[i, :len(entry)] = entry
+            context_lengths[i] = len(entry)
 
         responses = np.zeros([len(r), max([len(entry) for entry in r]), max([len(cand) for entry in r for cand in entry])], dtype=int)
         responses.fill(self.vocab.PAD_token_id)
+        responses_lengths = np.zeros([len(r), max([len(entry) for entry in r])], dtype=int)
 
         for i, entry in enumerate(r):
             for j, cand in enumerate(entry):
                 responses[i, j, :len(cand)] = cand
+                responses_lengths[i, j] = len(cand)
 
-        return context, responses
+        return context, responses, context_lengths, responses_lengths
 
     def __len__(self):
         return len(self.data)
@@ -146,10 +150,10 @@ class Dataset(object):
                                 format(batch_size, len(self.data)))
         for i in range(0, len(self.data), batch_size):
             cur_batch = self.data[i:i + batch_size]
-            context, responses = self._pad(cur_batch)
+            context, responses, context_lengths, responses_lengths = self._pad(cur_batch)
             target = np.asarray([pair[1] for pair in cur_batch])
 
-            yield (context, responses, target)
+            yield (context, responses, target, context_lengths, responses_lengths)
 
     def shuffle(self, seed=None):
         """

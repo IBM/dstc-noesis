@@ -39,26 +39,30 @@ class Evaluator(object):
         with torch.no_grad():
             for batch in data.make_batches(self.batch_size):
                 if torch.cuda.is_available():
-                    context_variables = torch.tensor(batch[0]).cuda()
-                    responses_variables = torch.tensor(batch[1]).cuda()
-                    target_variables = torch.tensor(batch[2]).cuda()
+                    context_variable = torch.tensor(batch[0]).cuda()
+                    responses_variable = torch.tensor(batch[1]).cuda()
+                    target_variable = torch.tensor(batch[2]).cuda()
+                    context_lengths_variable = torch.tensor(batch[3]).cuda()
+                    responses_lengths_variable = torch.tensor(batch[4]).cuda()
                 else:
-                    context_variables = torch.tensor(batch[0])
-                    responses_variables = torch.tensor(batch[1])
-                    target_variables = torch.tensor(batch[2])
+                    context_variable = torch.tensor(batch[0])
+                    responses_variable = torch.tensor(batch[1])
+                    target_variable = torch.tensor(batch[2])
+                    context_lengths_variable = torch.tensor(batch[3])
+                    responses_lengths_variable = torch.tensor(batch[4])
 
-                outputs = model(context_variables, responses_variables)
+                outputs = model(context_variable, responses_variable, context_lengths_variable, responses_lengths_variable)
 
                 # Get loss
                 if len(outputs.size()) == 1:
                     outputs = outputs.unsqueeze(0)
-                loss += self.loss_func(outputs, target_variables)
+                loss += self.loss_func(outputs, target_variable)
 
                 # Evaluation
                 predictions = np.argsort(outputs.numpy(), axis=1)
                 num_samples = predictions.shape[0]
 
-                ranks = predictions[np.arange(num_samples), target_variables]
+                ranks = predictions[np.arange(num_samples), target_variable]
                 match += sum(ranks == 0)
                 recall['@1'] = match
                 recall['@2'] += sum(ranks <= 2)
