@@ -45,10 +45,10 @@ class SupervisedTrainer(object):
 
         self.logger = logging.getLogger(__name__)
 
-    def _train_batch(self, context_variable, responses_variable, target_variable, model):
+    def _train_batch(self, context_variable, responses_variable, target_variable, model, context_lengths_variable, responses_lengths_variable):
         loss_func = self.loss_func
         # Forward propagation
-        outputs = model(context_variable, responses_variable)
+        outputs = model(context_variable, responses_variable, context_lengths_variable, responses_lengths_variable)
         # Get loss
         if len(outputs.size()) == 1:
             outputs = outputs.unsqueeze(0)
@@ -68,8 +68,6 @@ class SupervisedTrainer(object):
         print_loss_total = 0  # Reset every print_every
         epoch_loss_total = 0  # Reset every epoch
 
-        # device = None if torch.cuda.is_available() else -1
-        # device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
 
         steps_per_epoch = data.num_batches(batch_size)
         total_steps = steps_per_epoch * n_epochs
@@ -84,23 +82,20 @@ class SupervisedTrainer(object):
                 step += 1
                 step_elapsed += 1
 
-                # context_variables = torch.tensor(batch[0])
-                # responses_variables = torch.tensor(batch[1])
-                # target_variables = torch.tensor(batch[2])
-                # context_variables = torch.tensor(batch[0], device=device)
-                # responses_variables = torch.tensor(batch[1], device=device)
-                # target_variables = torch.tensor(batch[2], device=device)
-
                 if torch.cuda.is_available():
-                    context_variables = torch.tensor(batch[0]).cuda()
-                    responses_variables = torch.tensor(batch[1]).cuda()
-                    target_variables = torch.tensor(batch[2]).cuda()
+                    context_variable = torch.tensor(batch[0]).cuda()
+                    responses_variable = torch.tensor(batch[1]).cuda()
+                    target_variable = torch.tensor(batch[2]).cuda()
+                    context_lengths_variable = torch.tensor(batch[3]).cuda()
+                    responses_lengths_variable = torch.tensor(batch[4]).cuda()
                 else:
-                    context_variables = torch.tensor(batch[0])
-                    responses_variables = torch.tensor(batch[1])
-                    target_variables = torch.tensor(batch[2])
+                    context_variable = torch.tensor(batch[0])
+                    responses_variable = torch.tensor(batch[1])
+                    target_variable = torch.tensor(batch[2])
+                    context_lengths_variable = torch.tensor(batch[3])
+                    responses_lengths_variable = torch.tensor(batch[4])
 
-                loss = self._train_batch(context_variables, responses_variables, target_variables, model)
+                loss = self._train_batch(context_variable, responses_variable, target_variable, model, context_lengths_variable, responses_lengths_variable)
 
                 # Record average loss
                 print_loss_total += loss
@@ -115,12 +110,12 @@ class SupervisedTrainer(object):
                         print_loss_avg)
                     log.info(log_msg)
 
-                # Checkpoint
-                if step % self.checkpoint_every == 0 or step == total_steps:
-                    Checkpoint(model=model,
-                               optimizer=self.optimizer,
-                               epoch=epoch, step=step,
-                               vocab=data.vocab).save(self.expt_dir)
+            # Checkpoint
+            if epoch % self.checkpoint_every == 0:
+                Checkpoint(model=model,
+                           optimizer=self.optimizer,
+                           epoch=epoch, step=step,
+                           vocab=data.vocab).save(self.expt_dir)
 
             if step_elapsed == 0:
                 continue
@@ -130,7 +125,6 @@ class SupervisedTrainer(object):
             log_msg = "Finished epoch %d: Train %s: %.4f" % (epoch, 'CrossEntropyLoss', epoch_loss_avg)
             if dev_data is not None:
                 dev_loss, accuracy, recall = self.evaluator.evaluate(model, dev_data)
-                # self.optimizer.update(dev_loss, epoch)
                 log_msg += ", Dev CrossEntropyLoss: %.4f, Accuracy: %.4f" % (dev_loss, accuracy)
                 log_msg += ", \n Recall: {}".format(recall)
                 model.train(mode=True)
@@ -139,7 +133,7 @@ class SupervisedTrainer(object):
 
             log.info(log_msg)
 
-    def train(self, model, data, num_epochs=5,
+    def train(self, model, data, batch_size=1, num_epochs=5,
               resume=False, dev_data=None,
               optimizer=None):
         r""" Run training for a given model.
@@ -181,4 +175,4 @@ class SupervisedTrainer(object):
         self.logger.info("Optimizer: %s" % self.optimizer)
 
         self._train_epoches(data, model, num_epochs,
-                            start_epoch, step, dev_data=dev_data)
+                            start_epoch, step, batch_size=batch_size, dev_data=dev_data)
