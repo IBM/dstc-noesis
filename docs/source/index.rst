@@ -6,6 +6,8 @@
 Noetic End-to-End Response Selection Challenge
 ==============================================
 
++**Update** - A tensorflow based baseline for subtask 1 of the track is available `here <https://github.com/IBM/dstc7-noesis/tree/models/noesis-tf>`_.
+
 This challenge is part of dialog state tracking challenge (DSTC 7) series. It provides a partial conversation, and requires participants to select the correct next utterances from a set of candidates.
 Unlike previous similar challenges, this task tries to push towards real world problems by introducing:
 
@@ -31,7 +33,7 @@ Organizers
 
 Maintainers
 -----------
-* `Chulaka Gunasekara <mailto:chulaka.gunasekara@ibm.com>`_
+* `Chulaka Gunasekara <https://researcher.watson.ibm.com/researcher/view.php?person=ibm-chulaka.gunasekara>`_ 
 
 To get a guaranteed support you are kindly requested to open an issue.
 
