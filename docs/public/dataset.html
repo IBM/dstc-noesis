@@ -229,7 +229,7 @@ The data also includes paraphrases of the sentences and of the target responses.
 <div class="section" id="data-format">
 <h2>Data Format<a class="headerlink" href="#data-format" title="Permalink to this headline">¶</a></h2>
 <p>Each dialog contains in training, validation and test datasets follows the JSON format which is similar to the below example.</p>
-<div class="highlight-json notranslate"><div class="highlight"><pre><span></span>{
+<div class="highlight-json"><div class="highlight"><pre><span></span>{
     &quot;data-split&quot;: &quot;train&quot;,
     &quot;example-id&quot;: 1100001,
     &quot;messages-so-far&quot;: [
@@ -265,6 +265,13 @@ The data also includes paraphrases of the sentences and of the target responses.
 </pre></div>
 </div>
 <p>The field <cite>messages-so-far</cite> contains the context of the dialog and <cite>options-for-next</cite> contains the candidates to select the next utterance from. The correct next utterance is given in the field <cite>options-for-correct-answers</cite>. The field <cite>scenario</cite> refers to the subtask.</p>
+<p>For each dialog in <cite>Advising</cite> dataset, we provide a profile that contains information used during the creation of the dialog. It has the following fields:</p>
+<ul class="simple">
+<li><cite>Aggregated</cite> - contains student preferences, with each field matching up with a field in the <cite>course-info.json</cite> file.</li>
+<li><cite>Courses</cite> - contains two lists, first is a list of courses this student has taken (“Prior”) and second is a list of suggestions that the advisor had access to (“Suggested”).</li>
+<li><cite>Term</cite> - specifies the simulated year and semester for the conversation</li>
+<li><cite>Standing</cite> - specifies how far through their degree the student is.</li>
+</ul>
 </div>
 <div class="section" id="external-data">
 <h2>External Data<a class="headerlink" href="#external-data" title="Permalink to this headline">¶</a></h2>
