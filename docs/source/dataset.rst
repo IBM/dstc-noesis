@@ -97,6 +97,15 @@ Each dialog contains in training, validation and test datasets follows the JSON 
 
 The field `messages-so-far` contains the context of the dialog and `options-for-next` contains the candidates to select the next utterance from. The correct next utterance is given in the field `options-for-correct-answers`. The field `scenario` refers to the subtask.
 
+For each dialog in `Advising` dataset, we provide a profile that contains information used during the creation of the dialog. It has the following fields:
+
+- `Aggregated` - contains student preferences, with each field matching up with a field in the `course-info.json` file.
+- `Courses` - contains two lists, first is a list of courses this student has taken ("Prior") and second is a list of suggestions that the advisor had access to ("Suggested").
+- `Term` - specifies the simulated year and semester for the conversation
+- `Standing` - specifies how far through their degree the student is.
+
+
+
 External Data
 -------------
 
