@@ -37,10 +37,10 @@ def main(unused_argv):
     config = tf.ConfigProto()
     config.gpu_options.allow_growth = True
 
-    hparams = create_hparams()
+    hyper_params = create_hparams()
 
     model_fn = model.create_model_fn(
-        hparams,
+        hyper_params,
         model_impl=dual_encoder_model)
 
     estimator = tf.contrib.learn.Estimator(
@@ -51,13 +51,13 @@ def main(unused_argv):
     input_fn_train = inputs.create_input_fn(
         mode=tf.contrib.learn.ModeKeys.TRAIN,
         input_files=[TRAIN_FILE],
-        batch_size=hparams.batch_size,
+        batch_size=hyper_params.batch_size,
         num_epochs=FLAGS.num_epochs)
 
     input_fn_eval = inputs.create_input_fn(
         mode=tf.contrib.learn.ModeKeys.EVAL,
         input_files=[VALIDATION_FILE],
-        batch_size=hparams.eval_batch_size,
+        batch_size=hyper_params.eval_batch_size,
         num_epochs=1)
 
     eval_metrics = metrics.create_evaluation_metrics()
