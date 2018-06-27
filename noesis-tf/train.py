@@ -2,10 +2,10 @@ import os
 import time
 
 import tensorflow as tf
-import udc_model
-import udc_hparams
-import udc_metrics
-import udc_inputs
+import model
+from hparams import create_hparams
+import metrics
+import inputs
 
 from models.dual_encoder import dual_encoder_model
 
@@ -37,9 +37,9 @@ def main(unused_argv):
     config = tf.ConfigProto()
     config.gpu_options.allow_growth = True
 
-    hparams = udc_hparams.create_hparams()
+    hparams = create_hparams()
 
-    model_fn = udc_model.create_model_fn(
+    model_fn = model.create_model_fn(
         hparams,
         model_impl=dual_encoder_model)
 
@@ -48,19 +48,19 @@ def main(unused_argv):
         model_dir=MODEL_DIR,
         config=tf.contrib.learn.RunConfig(session_config=config))
 
-    input_fn_train = udc_inputs.create_input_fn(
+    input_fn_train = inputs.create_input_fn(
         mode=tf.contrib.learn.ModeKeys.TRAIN,
         input_files=[TRAIN_FILE],
         batch_size=hparams.batch_size,
         num_epochs=FLAGS.num_epochs)
 
-    input_fn_eval = udc_inputs.create_input_fn(
+    input_fn_eval = inputs.create_input_fn(
         mode=tf.contrib.learn.ModeKeys.EVAL,
         input_files=[VALIDATION_FILE],
         batch_size=hparams.eval_batch_size,
         num_epochs=1)
 
-    eval_metrics = udc_metrics.create_evaluation_metrics()
+    eval_metrics = metrics.create_evaluation_metrics()
 
     eval_monitor = tf.contrib.learn.monitors.ValidationMonitor(
         input_fn=input_fn_eval,
