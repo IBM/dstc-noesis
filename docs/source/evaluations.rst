@@ -1,8 +1,8 @@
 Evaluations
 ===========
 
-For each test instance, we will expect you to return a set of 10 choices (candidate ids) from the set of possible follow-up sentences and a probability distribution over those 10 choices.
-For the competition metric we will consider the choices that cover 90% of the distribution, and compute an F-score as the harmonic mean of precision and recall:
+For each test instance, we will expect you to return a set of 100 choices (candidate ids) from the set of possible follow-up sentences and a probability distribution over those 100 choices.
+As competition metrics we will compute range of scores, including F-score as the harmonic mean of precision and recall, recall@k, MRR(mean reciprocal rank) and MAP(mean average precision):
 
 .. math::
 
@@ -12,4 +12,4 @@ For the competition metric we will consider the choices that cover 90% of the di
 
     Recall &= \frac {\text{number of correct sentences selected}} {\text{total number of correct sentences in all sets}}
 
-We are also considering a number of other metrics for the purpose of analyzing system behavior, but those will not be the official metric used for ranking.
+The final set of competition metrics will be announced soon.

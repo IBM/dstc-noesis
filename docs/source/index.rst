@@ -19,7 +19,6 @@ This challenge is offered with two goal oriented dialog datasets, used in 5 subt
 A participant may participate in one, several, or all the subtasks.
 A full description of the track is available `here <http://workshop.colips.org/dstc7/proposals/Track%201%20Merged%20Challenge%20Extended%20Desscription_v2.pdf>`_.
 
-
 Organizers
 ----------
 * `Lazaros Polymenako <mailto:lcpolyme@us.ibm.com>`_, `Chulaka Gunasekara <mailto:chulaka.gunasekara@ibm.com>`_ – IBM Research AI
@@ -28,8 +27,14 @@ Organizers
 
 Maintainers
 -----------
-* `Chulaka Gunasekara <https://researcher.watson.ibm.com/researcher/view.php?person=ibm-chulaka.gunasekara>`_
+* `Chulaka Gunasekara <https://researcher.watson.ibm.com/researcher/view.php?person=ibm-chulaka.gunasekara>`_ 
 
 To get a guaranteed support you are kindly requested to open an issue.
 
 Thank you for understanding!
+
+.. toctree::
+   :hidden:
+   :glob:
+
+   *
