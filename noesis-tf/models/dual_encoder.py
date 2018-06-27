@@ -19,6 +19,12 @@ def get_embeddings(hparams):
         return tf.get_variable(
             "word_embeddings",
             initializer=initializer)
+    elif hparams.vocab_path:
+        vocab_array, vocab_dict = helpers.load_vocab(hparams.vocab_path)
+        return tf.get_variable(
+            "word_embeddings",
+            shape=[len(vocab_dict), hparams.embedding_dim],
+            initializer=initializer)
     else:
         return tf.get_variable(
             "word_embeddings",
