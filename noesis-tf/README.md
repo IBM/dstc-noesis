@@ -35,7 +35,7 @@ python scripts/prepare_data.py --train_in data/ubuntu_train_subtask_1.json --val
 The following command can be used to train the model for the Ubuntu subtask 1. Similar command works for subtask 1 of Advising data as well.
 
 ```
-python train.py --train_in data/ubuntu_subtask_1_new.tfrecords --validation_in data/ubuntu_dev_subtask_1.tfrecords -glove_path data/glove.42B.300d.txt -vocab_path data/ubuntu_subtask_1.txt --embedding_dim=300 --batch_size=16
+python train.py --train_in data/ubuntu_subtask_1.tfrecords --validation_in data/ubuntu_dev_subtask_1.tfrecords -glove_path data/glove.42B.300d.txt -vocab_path data/ubuntu_subtask_1.txt --embedding_dim=300 --batch_size=16
 ```
 
 The glove embeddings can be downloaded from [here](https://nlp.stanford.edu/projects/glove/)
