@@ -52,7 +52,7 @@ def dual_encoder_model(
 
 
     # Build the Context Encoder RNN
-    with tf.variable_scope("encoder-rnn") as vs:
+    with tf.variable_scope("context-rnn") as vs:
         # We use an LSTM Cell
         cell_context = tf.nn.rnn_cell.LSTMCell(
             hparams.rnn_dim,
@@ -65,7 +65,7 @@ def dual_encoder_model(
                                                                             context_len, dtype=tf.float32)
 
     # Build the Utterance Encoder RNN
-    with tf.variable_scope("decoder-rnn") as vs:
+    with tf.variable_scope("utterance-rnn") as vs:
         # We use an LSTM Cell
         cell_utterance = tf.nn.rnn_cell.LSTMCell(
             hparams.rnn_dim,
