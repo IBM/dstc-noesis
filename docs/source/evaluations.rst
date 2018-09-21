@@ -2,16 +2,7 @@ Evaluations
 ===========
 
 For each test instance, we will expect you to return a set of 100 choices (candidate ids) from the set of possible follow-up sentences and a probability distribution over those 100 choices.
-As competition metrics we will compute range of scores, including recall@k, MRR(mean reciprocal rank) and MAP(mean average precision):
-
-.. math::
-
-    Precision &= \frac {\text{number of correct sentences selected}} {\text{total number of sentences selected}}
-
-    \\
-
-    Recall &= \frac {\text{number of correct sentences selected}} {\text{total number of correct sentences in all sets}}
-
+As competition metrics we will compute range of scores, including recall@k, MRR(mean reciprocal rank) and MAP(mean average precision).
 
 Following evaluation metrics will be used to evaluate your submissions.
 
@@ -20,7 +11,7 @@ Following evaluation metrics will be used to evaluate your submissions.
     +==========+==========================================+===============================================+
     | 1        | Recall @1, Recall @10, Recall @50, MRR   |   Recall @1, Recall @10, Recall @50, MRR]     |
     +----------+------------------------------------------+-----------------------------------------------+
-    | 2        | Recall @1, Recall @10, Recall @50, MRR   |   Recall @1, Recall @10, Recall @50, MRR      |
+    | 2        | Recall @1, Recall @10, Recall @50, MRR   |                                               |
     +----------+------------------------------------------+-----------------------------------------------+
     | 3        |                                          |   Recall @1, Recall @10, Recall @50, MRR, MAP |
     +----------+------------------------------------------+-----------------------------------------------+
