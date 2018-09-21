@@ -148,7 +148,34 @@
             
   <div class="section" id="submission">
 <h1>Submission<a class="headerlink" href="#submission" title="Permalink to this headline">¶</a></h1>
-<p>Information regarding how to submit will be released later in the development period.</p>
+<p>Your submissions should be emailed to <a class="reference external" href="mailto:chulaka&#46;gunasekara&#37;&#52;&#48;ibm&#46;com">chulaka<span>&#46;</span>gunasekara<span>&#64;</span>ibm<span>&#46;</span>com</a>, with the subject line <strong>DSTC7_Track1_Submission</strong>. The results should be submitted from an email address that is registered for Track 1.</p>
+<p>You need to submit a single zipped directory containing the result files for each of the subtasks that you need to be evaluated on. The files should be named in the following format.
+<code class="docutils literal notranslate"><span class="pre">&lt;dataset&gt;_subtask_&lt;subtask_number&gt;.json</span></code></p>
+<p>The &lt;dataset&gt; should be replaced by either ‘Ubuntu’ or ‘Advising’, and the &lt;subtask_number&gt; should be replaced by the subtask number(1-5).
+For example, the results file for subtask 1 on Ubuntu dataset should be named as Ubuntu_subtask_1.json</p>
+<p>Each results file should follow the following json format.</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span>[
+    {
+        &quot;example-id&quot;: xxxxxxx,
+        &quot;candidate-ranking&quot;:[
+            {
+                &quot;candidate-id&quot;: aaaaaa,
+                &quot;confidence&quot;: b.bbb
+            },
+            {
+                &quot;candidate-id&quot;: cccccc,
+                &quot;confidence&quot;: d.ddd
+            },
+            ...
+        ]
+    },
+    ...
+]
+</pre></div>
+</div>
+<p>The value for the field “example-id” should contain the corresponding example-id of the test dataset. The candidate ranking field should ONLY include 100 candidates in the order of confidence.</p>
+<p>For subtask 2, where the selection is made from a global list of candidates, candidate-ranking fields should <strong>only include the top 100 candidates</strong> from the global list.</p>
+<p>For subtask 4, when the correct candidate not available in the candidate set, return <code class="docutils literal notranslate"><span class="pre">&quot;candidate-id&quot;:</span> <span class="pre">NONE</span></code> with the confidence score as an item in the candidate-ranking list.</p>
 </div>
 
 
