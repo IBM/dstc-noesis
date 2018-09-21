@@ -52,7 +52,7 @@ if opt.load_checkpoint is not None:
 else:
     # Prepare dataset
     train = Dataset.from_file(opt.train_path)
-    dev = Dataset.from_file(opt.dev_path)
+    dev = Dataset.from_file(opt.dev_path, vocab=train.vocab)
     vocab = train.vocab
     max_len = 500
 
