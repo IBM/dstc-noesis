@@ -76,7 +76,7 @@ def calculate_MRR(ranks):
     """
     ranks = np.array(ranks)
     idx = np.nonzero(ranks)
-    msg = "Mean Reciprocal Rank (MRR): {}".format((1 / sum(ranks[idx])) / len(ranks))
+    msg = "Mean Reciprocal Rank (MRR): {}".format((sum(1.0 / ranks[idx])) / len(ranks))
     logging.info(msg)
 
 
