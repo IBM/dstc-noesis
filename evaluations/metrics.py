@@ -17,8 +17,8 @@ def read_targets(filename):
     targets = {}
     with open(filename, 'r') as fp:
         for line in fp:
-            uid, answer_id = line.rstrip('\n').split(sep='\t')
-            targets[uid] = answer_id
+            uid, answer_ids = line.rstrip('\n').split(sep='\t')
+            targets[uid] = answer_ids.split(sep=',')
     return targets
 
 
@@ -39,7 +39,7 @@ def rank(src, tgt):
         try:
             predictions = src[idx]
             for i, entry in enumerate(predictions):
-                if entry == target:
+                if entry in target:
                     ranks[-1] = i + 1
                     break
         except KeyError:
@@ -80,6 +80,35 @@ def calculate_MRR(ranks):
     logging.info(msg)
 
 
+def calculate_MAP(src, tgt):
+    """
+    The function calculate Mean Average Precision (MAP).
+    Args:
+        src (dict): predictions by the model
+        tgt (dict): ground truth/ targets
+    """
+    avg_precision = list()
+    for idx, targets in tgt.items():
+        try:
+            predictions = src[idx]
+            precision = list()
+            for i, target in enumerate(targets):
+                try:
+                    precision.append(((i + 1) / (predictions.index(target) + 1)))
+                except ValueError:
+                    msg = "Answer: {} isn't part of the predictions by the model.".format(target)
+                    logging.warning(msg)
+
+            avg_precision.append(sum(precision) / len(targets))
+        except KeyError:
+            msg = "No matching entry found for test case with dialog-id {}".format(idx)
+            logging.warning(msg)
+
+    map = sum(avg_precision)/len(tgt)
+    msg = "Mean Average Precision (MAP): {}".format(map)
+    logging.info(msg)
+
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument('--predictions', action='store', dest='predictions',
@@ -102,3 +131,4 @@ if __name__ == "__main__":
     ranks = rank(predictions, targets)
     calculate_recall(ranks)
     calculate_MRR(ranks)
+    calculate_MAP(predictions, targets)
