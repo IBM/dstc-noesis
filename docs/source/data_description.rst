@@ -1,5 +1,5 @@
-Datasets
-========
+Data Description
+================
 
 The datasets will be available to the contestants upon `registration <https://ibm.biz/BdZ6E3>`_ and selecting **Sentence Selection** as an interested track.
 
