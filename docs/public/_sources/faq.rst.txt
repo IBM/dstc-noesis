@@ -8,11 +8,11 @@ FAQs
     +===================================+=======================+
     | Development phase (14 weeks)      | Jun 1 – Sep 9, 2018   |
     +-----------------------------------+-----------------------+
-    | Evaluation phase (2 weeks)        | Sep 10 – Sep 24, 2018 |
+    | Evaluation phase (2 weeks)        | Sep 10 – Oct 8, 2018  |
     +-----------------------------------+-----------------------+
-    | Release of the results            | 1 Oct 2018            |
+    | Release of the results            | 16th Oct 2018         |
     +-----------------------------------+-----------------------+
-    | Paper submission deadline         |  Oct-Nov 2018         |
+    | Paper submission deadline         | Oct-Nov 2018          |
     +-----------------------------------+-----------------------+
     | DSTC7 special session or workshop | Spring 2019           |
     +-----------------------------------+-----------------------+
@@ -21,7 +21,7 @@ FAQs
 
 2. **What should we submit**?
 
-    You are required to submit the responses to the test dataset that will be released on the 10th of September. The format of the responses to be submitted will be announced later.
+    You are required to submit the responses to the test dataset that will be released on the 10th of September. The format of the responses can be found under `submissions` section.
 
 3. **Do we need to work on both datasets**?
 
@@ -29,7 +29,7 @@ FAQs
 
 4. **How are we evaluated**?
 
-    For each test instance, we expect you to return a set of 10 choices (candidate ids) from the set candidates and a probability distribution over those 10 choices. For the competition metric we will consider the choices that cover 90% of the distribution, and compute an F-score as the harmonic mean of precision and recall.
+    For each test instance, we expect you to return a set of 100 choices (candidate ids) from the set candidates and a probability distribution over those 100 choices. For more details please check the `evaluations` section.
 
 4. **What do you mean by end-to-end models**?
 
