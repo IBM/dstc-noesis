@@ -19,11 +19,7 @@ def read_targets(filename):
     with open(filename, 'r') as fp:
         for line in fp:
             line = line.rstrip('\n').split(sep='\t')
-            correct_targets_lst = line[1].split(sep=',')
-            correct_targets_str = list()
-            for target in correct_targets_lst:
-                correct_targets_str.append(str(target).upper())
-            targets[str(line[0])] = correct_targets_str
+            targets[str(line[0])] = [str(target).upper() for target in line[1].split(sep=',')]
     return targets
 
 
