@@ -1,12 +1,13 @@
 import argparse
 import logging
 import ijson
+from collections import OrderedDict
 
 import numpy as np
 
 
 def read_predictions(filename):
-    predictions = {}
+    predictions = OrderedDict()
     with open(filename, 'r') as fp:
         for item in ijson.items(fp, 'item'):
             predictions[item['example-id']] = [candidate['candidate-id'] for candidate in item['candidate-ranking']]
@@ -14,11 +15,11 @@ def read_predictions(filename):
 
 
 def read_targets(filename):
-    targets = {}
+    targets = OrderedDict()
     with open(filename, 'r') as fp:
         for line in fp:
-            uid, answer_ids = line.rstrip('\n').split(sep='\t')
-            targets[uid] = answer_ids.split(sep=',')
+            line = line.rstrip('\n').split(sep='\t')
+            targets[str(line[0])] = [str(target).upper() for target in line[1].split(sep=',')]
     return targets
 
 
