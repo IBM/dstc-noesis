@@ -10,7 +10,7 @@ def read_predictions(filename):
     predictions = OrderedDict()
     with open(filename, 'r') as fp:
         for item in ijson.items(fp, 'item'):
-            predictions[item['example-id']] = [candidate['candidate-id'] for candidate in item['candidate-ranking']]
+            predictions[str(item['example-id'])] = [str(candidate['candidate-id']) for candidate in item['candidate-ranking']]
     return predictions
 
 
