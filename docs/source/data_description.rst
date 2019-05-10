@@ -13,6 +13,19 @@ In this challenge, the context of each dialog contains more than 3 turns which o
 We focus on *participant_2* to set the task up as creating a bot that could help provide answers.
 Relevant external information of the form of Linux manual pages is also provided.
 
+Note: this data is NOT the same as the previous Ubuntu datasets from `Lowe et. al (2015) <https://arxiv.org/abs/1506.08909>`. It is a new resource, described in the following paper::
+
+  @Article{arxiv18disentangle,
+    author    = {Jonathan K. Kummerfeld, Sai R. Gouravajhala, Joseph Peper, Vignesh Athreya, Chulaka Gunasekara, Jatin Ganhotra, Siva Sankalp Patel, Lazaros Polymenakos, and Walter S. Lasecki},
+    title     = {Analyzing Assumptions in Conversation Disentanglement Research Through the Lens of a New Dataset and Model},
+    journal   = {ArXiv e-prints},
+    archivePrefix = {arXiv},
+    eprint    = {1810.11118},
+    primaryClass = {cs.CL},
+    year      = {2018},
+    month     = {October},
+    url       = {https://arxiv.org/pdf/1810.11118.pdf},
+  }
 
 Advising
 --------

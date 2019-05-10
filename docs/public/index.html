@@ -17,33 +17,35 @@
   
 
   
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Data Description" href="data_description.html" /> 
-
-  
-  <script src="_static/js/modernizr.min.js"></script>
-
 </head>
 
 <body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -153,24 +155,49 @@
 <p>This challenge is part of dialog state tracking challenge (DSTC 7) series. It provides a partial conversation, and requires participants to select the correct next utterances from a set of candidates.
 Unlike previous similar challenges, this task tries to push towards real world problems by introducing:</p>
 <ul class="simple">
-<li>A large number of candidates</li>
-<li>Cases where no candidate is correct</li>
-<li>External data</li>
+<li><p>A large number of candidates</p></li>
+<li><p>Cases where no candidate is correct</p></li>
+<li><p>External data</p></li>
 </ul>
 <p>This challenge is offered with two goal oriented dialog datasets, used in 5 subtasks.
 A participant may participate in one, several, or all the subtasks.
 A full description of the track is available <a class="reference external" href="http://workshop.colips.org/dstc7/proposals/Track%201%20Merged%20Challenge%20Extended%20Desscription_v2.pdf">here</a>.</p>
+<p>If you use this data or code in your work, please cite the task description paper:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nd">@InProceedings</span><span class="p">{</span><span class="n">dstc19task1</span><span class="p">,</span>
+  <span class="n">title</span>     <span class="o">=</span> <span class="p">{</span><span class="n">DSTC7</span> <span class="n">Task</span> <span class="mi">1</span><span class="p">:</span> <span class="n">Noetic</span> <span class="n">End</span><span class="o">-</span><span class="n">to</span><span class="o">-</span><span class="n">End</span> <span class="n">Response</span> <span class="n">Selection</span><span class="p">},</span>
+  <span class="n">author</span>    <span class="o">=</span> <span class="p">{</span><span class="n">Chulaka</span> <span class="n">Gunasekara</span><span class="p">,</span> <span class="n">Jonathan</span> <span class="n">K</span><span class="o">.</span> <span class="n">Kummerfeld</span><span class="p">,</span> <span class="n">Lazaros</span> <span class="n">Polymenakos</span><span class="p">,</span> <span class="ow">and</span> <span class="n">Walter</span> <span class="n">S</span><span class="o">.</span> <span class="n">Lasecki</span><span class="p">},</span>
+  <span class="n">year</span>      <span class="o">=</span> <span class="p">{</span><span class="mi">2019</span><span class="p">},</span>
+  <span class="n">booktitle</span> <span class="o">=</span> <span class="p">{</span><span class="mi">7</span><span class="n">th</span> <span class="n">Edition</span> <span class="n">of</span> <span class="n">the</span> <span class="n">Dialog</span> <span class="n">System</span> <span class="n">Technology</span> <span class="n">Challenges</span> <span class="n">at</span> <span class="n">AAAI</span> <span class="mi">2019</span><span class="p">},</span>
+  <span class="n">url</span>       <span class="o">=</span> <span class="p">{</span><span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">workshop</span><span class="o">.</span><span class="n">colips</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="n">dstc7</span><span class="o">/</span><span class="n">papers</span><span class="o">/</span><span class="n">dstc7_task1_final_report</span><span class="o">.</span><span class="n">pdf</span><span class="p">},</span>
+  <span class="n">month</span>     <span class="o">=</span> <span class="p">{</span><span class="n">January</span><span class="p">},</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>If you use the Ubuntu data, please also cite the paper in which we describe its creation:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nd">@Article</span><span class="p">{</span><span class="n">arxiv18disentangle</span><span class="p">,</span>
+  <span class="n">author</span>    <span class="o">=</span> <span class="p">{</span><span class="n">Jonathan</span> <span class="n">K</span><span class="o">.</span> <span class="n">Kummerfeld</span><span class="p">,</span> <span class="n">Sai</span> <span class="n">R</span><span class="o">.</span> <span class="n">Gouravajhala</span><span class="p">,</span> <span class="n">Joseph</span> <span class="n">Peper</span><span class="p">,</span> <span class="n">Vignesh</span> <span class="n">Athreya</span><span class="p">,</span> <span class="n">Chulaka</span> <span class="n">Gunasekara</span><span class="p">,</span> <span class="n">Jatin</span> <span class="n">Ganhotra</span><span class="p">,</span> <span class="n">Siva</span> <span class="n">Sankalp</span> <span class="n">Patel</span><span class="p">,</span> <span class="n">Lazaros</span> <span class="n">Polymenakos</span><span class="p">,</span> <span class="ow">and</span> <span class="n">Walter</span> <span class="n">S</span><span class="o">.</span> <span class="n">Lasecki</span><span class="p">},</span>
+  <span class="n">title</span>     <span class="o">=</span> <span class="p">{</span><span class="n">Analyzing</span> <span class="n">Assumptions</span> <span class="ow">in</span> <span class="n">Conversation</span> <span class="n">Disentanglement</span> <span class="n">Research</span> <span class="n">Through</span> <span class="n">the</span> <span class="n">Lens</span> <span class="n">of</span> <span class="n">a</span> <span class="n">New</span> <span class="n">Dataset</span> <span class="ow">and</span> <span class="n">Model</span><span class="p">},</span>
+  <span class="n">journal</span>   <span class="o">=</span> <span class="p">{</span><span class="n">ArXiv</span> <span class="n">e</span><span class="o">-</span><span class="n">prints</span><span class="p">},</span>
+  <span class="n">archivePrefix</span> <span class="o">=</span> <span class="p">{</span><span class="n">arXiv</span><span class="p">},</span>
+  <span class="n">eprint</span>    <span class="o">=</span> <span class="p">{</span><span class="mf">1810.11118</span><span class="p">},</span>
+  <span class="n">primaryClass</span> <span class="o">=</span> <span class="p">{</span><span class="n">cs</span><span class="o">.</span><span class="n">CL</span><span class="p">},</span>
+  <span class="n">year</span>      <span class="o">=</span> <span class="p">{</span><span class="mi">2018</span><span class="p">},</span>
+  <span class="n">month</span>     <span class="o">=</span> <span class="p">{</span><span class="n">October</span><span class="p">},</span>
+  <span class="n">url</span>       <span class="o">=</span> <span class="p">{</span><span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">arxiv</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="n">pdf</span><span class="o">/</span><span class="mf">1810.11118</span><span class="o">.</span><span class="n">pdf</span><span class="p">},</span>
+<span class="p">}</span>
+</pre></div>
+</div>
 <div class="section" id="organizers">
 <h2>Organizers<a class="headerlink" href="#organizers" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li><a class="reference external" href="mailto:lcpolyme&#37;&#52;&#48;us&#46;ibm&#46;com">Lazaros Polymenako</a>, <a class="reference external" href="mailto:chulaka&#46;gunasekara&#37;&#52;&#48;ibm&#46;com">Chulaka Gunasekara</a> – IBM Research AI</li>
-<li><a class="reference external" href="mailto:wlasecki&#37;&#52;&#48;umich&#46;edu">Walter Lasecki</a>, <a class="reference external" href="mailto:jkummerf&#37;&#52;&#48;umich&#46;edu">Jonathan K<span>&#46;</span> Kummerfeld</a> – University of Michigan</li>
+<li><p><a class="reference external" href="mailto:lcpolyme&#37;&#52;&#48;us&#46;ibm&#46;com">Lazaros Polymenako</a>, <a class="reference external" href="mailto:chulaka&#46;gunasekara&#37;&#52;&#48;ibm&#46;com">Chulaka Gunasekara</a> – IBM Research AI</p></li>
+<li><p><a class="reference external" href="mailto:wlasecki&#37;&#52;&#48;umich&#46;edu">Walter Lasecki</a>, <a class="reference external" href="mailto:jkummerf&#37;&#52;&#48;umich&#46;edu">Jonathan K<span>&#46;</span> Kummerfeld</a> – University of Michigan</p></li>
 </ul>
 </div>
 <div class="section" id="maintainers">
 <h2>Maintainers<a class="headerlink" href="#maintainers" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li><a class="reference external" href="https://researcher.watson.ibm.com/researcher/view.php?person=ibm-chulaka.gunasekara">Chulaka Gunasekara</a></li>
+<li><p><a class="reference external" href="https://researcher.watson.ibm.com/researcher/view.php?person=ibm-chulaka.gunasekara">Chulaka Gunasekara</a></p></li>
 </ul>
 <p>To get a guaranteed support you are kindly requested to open an issue.</p>
 <p>Thank you for understanding!</p>
@@ -197,7 +224,7 @@ A full description of the track is available <a class="reference external" href=
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2018, International Business Machines Corp.
+        &copy; Copyright 2018, International Business Machines Corp
 
     </p>
   </div>
@@ -214,33 +241,16 @@ A full description of the track is available <a class="reference external" href=
   
 
 
-  
-
-    <script type="text/javascript">
-        var DOCUMENTATION_OPTIONS = {
-            URL_ROOT:'./',
-            VERSION:'0.0.1',
-            LANGUAGE:'None',
-            COLLAPSE_INDEX:false,
-            FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: '.txt'
-        };
-    </script>
-      <script type="text/javascript" src="_static/jquery.js"></script>
-      <script type="text/javascript" src="_static/underscore.js"></script>
-      <script type="text/javascript" src="_static/doctools.js"></script>
-      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-
-  
-
-  <script type="text/javascript" src="_static/js/theme.js"></script>
-
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
+
+  
+  
+    
+   
 
 </body>
 </html>
