@@ -3,6 +3,20 @@ Datasets
 
 The datasets can be downloaded from the following links.
 
+Note: the Ubuntu data is NOT the same as the previous Ubuntu dataset from `Lowe et. al (2015) <https://arxiv.org/abs/1506.08909>`. It is a new resource, described in the following paper::
+
+  @Article{arxiv18disentangle,
+    author    = {Jonathan K. Kummerfeld, Sai R. Gouravajhala, Joseph Peper, Vignesh Athreya, Chulaka Gunasekara, Jatin Ganhotra, Siva Sankalp Patel, Lazaros Polymenakos, and Walter S. Lasecki},
+    title     = {Analyzing Assumptions in Conversation Disentanglement Research Through the Lens of a New Dataset and Model},
+    journal   = {ArXiv e-prints},
+    archivePrefix = {arXiv},
+    eprint    = {1810.11118},
+    primaryClass = {cs.CL},
+    year      = {2018},
+    month     = {October},
+    url       = {https://arxiv.org/pdf/1810.11118.pdf},
+  }
+
 Training and Validation
 -----------------------
 
